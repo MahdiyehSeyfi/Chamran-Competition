@@ -105,13 +105,13 @@
   <h1>⚽ جدول رده‌بندی فوتسال</h1>
   <table id="rankingTable"></table>
 
-  <h2>🗓 بازی‌های آینده</h2>
+  <h2>📆 بازی‌های آینده</h2>
   <div id="matches" class="matches-container"></div>
 
   <script>
     /* 📊 جدول رده‌بندی */
     const rankingUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv";
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=0&single=true&output=csv";
 
     fetch(rankingUrl)
       .then((res) => res.text())
@@ -154,7 +154,7 @@
 
     /* 🗓 بازی‌های آینده */
     const matchesUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv"; // لینک CSV مخصوص شیت بازی‌ها
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1831919756&single=true&output=csv"; // لینک CSV مخصوص شیت بازی‌ها
 
     fetch(matchesUrl)
       .then((res) => res.text())
