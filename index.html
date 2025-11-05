@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جدول رده‌بندی و بازی‌های آینده</title>
+  <title>جدول رده‌بندی، بازی‌ها و نتایج</title>
   <style>
     body {
       font-family: "Vazir", sans-serif;
@@ -51,8 +51,8 @@
       font-weight: bold;
     }
 
-    /* بخش کارت‌های بازی‌های آینده */
-    .matches-container {
+    /* کارت‌های بخش‌های مختلف */
+    .card-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -61,17 +61,17 @@
       max-width: 1000px;
     }
 
-    .match-card {
+    .card {
       background: #ffffff;
       border-radius: 14px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 260px;
+      width: 280px;
       padding: 18px;
       text-align: center;
       transition: all 0.3s ease;
     }
 
-    .match-card:hover {
+    .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
     }
@@ -89,7 +89,7 @@
       color: #444;
     }
 
-    .match-info {
+    .match-info, .result-info {
       font-size: 14px;
       color: #555;
       margin-top: 6px;
@@ -99,6 +99,13 @@
       font-size: 16px;
       margin-left: 5px;
     }
+
+    .goal-scorer {
+      font-size: 13px;
+      margin-top: 6px;
+      color: #333;
+      text-align: right;
+    }
   </style>
 </head>
 <body>
@@ -106,7 +113,10 @@
   <table id="rankingTable"></table>
 
   <h2>📆 بازی‌های آینده</h2>
-  <div id="matches" class="matches-container"></div>
+  <div id="matches" class="card-container"></div>
+
+  <h2>🏆 نتایج بازی‌ها</h2>
+  <div id="results" class="card-container"></div>
 
   <script>
     /* 📊 جدول رده‌بندی */
@@ -133,12 +143,12 @@
             th.textContent = "وضعیت";
             tr.appendChild(th);
           } else if (i === 1 || i === 2) {
-            tr.style.backgroundColor = "#d4edda"; // سبز کمرنگ
+            tr.style.backgroundColor = "#d4edda";
             const td = document.createElement("td");
             td.textContent = "صعودکننده";
             tr.appendChild(td);
           } else if (i === 3) {
-            tr.style.backgroundColor = "#fff3cd"; // زرد کمرنگ
+            tr.style.backgroundColor = "#fff3cd";
             const td = document.createElement("td");
             td.textContent = "تعقیب‌کننده";
             tr.appendChild(td);
@@ -154,7 +164,7 @@
 
     /* 🗓 بازی‌های آینده */
     const matchesUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1831919756&single=true&output=csv"; // لینک CSV مخصوص شیت بازی‌ها
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1831919756&single=true&output=csv";
 
     fetch(matchesUrl)
       .then((res) => res.text())
@@ -165,7 +175,7 @@
         for (let i = 1; i < rows.length; i++) {
           const [team1, team2, date, time] = rows[i];
           const card = document.createElement("div");
-          card.className = "match-card";
+          card.className = "card";
           card.innerHTML = `
             <div class="teams">${team1.trim()} <span class="divider">⚽</span> ${team2.trim()}</div>
             <div class="match-info"><span class="emoji">📅</span> ${date.trim()}</div>
@@ -175,6 +185,31 @@
         }
       })
       .catch((err) => console.error("خطا در دریافت داده‌های بازی‌ها:", err));
+
+    /* 🏆 نتایج بازی‌ها */
+    const resultsUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv"; // ← لینک شیت جدید نتایج
+
+    fetch(resultsUrl)
+      .then((res) => res.text())
+      .then((csv) => {
+        const rows = csv.trim().split("\n").map((r) => r.split(","));
+        const container = document.getElementById("results");
+
+        for (let i = 1; i < rows.length; i++) {
+          const [team1, score1, score2, team2, scorers1, scorers2] = rows[i];
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="teams">${team1.trim()} ${score1.trim()} <span class="divider">⚽</span> ${score2.trim()} ${team2.trim()}</div>
+            <div class="result-info goal-scorer"><b>${team1.trim()}:</b> ${scorers1 || "-"}</div>
+            <div class="result-info goal-scorer"><b>${team2.trim()}:</b> ${scorers2 || "-"}</div>
+          `;
+          container.appendChild(card);
+        }
+      })
+      .catch((err) => console.error("خطا در دریافت داده‌های نتایج:", err));
   </script>
 </body>
 </html>
