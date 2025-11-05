@@ -20,7 +20,6 @@
       color: #222;
     }
 
-    /* جدول رده‌بندی */
     table {
       margin: 30px auto;
       border-collapse: collapse;
@@ -43,15 +42,10 @@
       color: white;
     }
 
-    tr:nth-child(even) {
-      background: #f2f2f2;
-    }
+    tr:nth-child(even) { background: #f2f2f2; }
 
-    td:last-child {
-      font-weight: bold;
-    }
+    td:last-child { font-weight: bold; }
 
-    /* کارت‌های بخش‌های مختلف */
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -105,6 +99,12 @@
       margin-top: 6px;
       color: #333;
       text-align: right;
+      line-height: 1.6;
+    }
+
+    .cards {
+      margin-top: 6px;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -131,7 +131,6 @@
 
         rows.forEach((row, i) => {
           const tr = document.createElement("tr");
-
           row.forEach((cell) => {
             const el = document.createElement(i === 0 ? "th" : "td");
             el.textContent = cell.trim();
@@ -183,12 +182,11 @@
           `;
           container.appendChild(card);
         }
-      })
-      .catch((err) => console.error("خطا در دریافت داده‌های بازی‌ها:", err));
+      });
 
     /* 🏆 نتایج بازی‌ها */
     const resultsUrl =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv"; // ← لینک شیت جدید نتایج
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv"; // لینک CSV مخصوص شیت نتایج
 
     fetch(resultsUrl)
       .then((res) => res.text())
@@ -197,19 +195,21 @@
         const container = document.getElementById("results");
 
         for (let i = 1; i < rows.length; i++) {
-          const [team1, score1, score2, team2, scorers1, scorers2] = rows[i];
+          const [team1, score1, score2, team2, scorers1, scorers2, cards1, cards2] = rows[i];
 
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
             <div class="teams">${team1.trim()} ${score1.trim()} <span class="divider">⚽</span> ${score2.trim()} ${team2.trim()}</div>
             <div class="result-info goal-scorer"><b>${team1.trim()}:</b> ${scorers1 || "-"}</div>
+            ${cards1 ? `<div class="cards">${cards1.trim()}</div>` : ""}
             <div class="result-info goal-scorer"><b>${team2.trim()}:</b> ${scorers2 || "-"}</div>
+            ${cards2 ? `<div class="cards">${cards2.trim()}</div>` : ""}
           `;
           container.appendChild(card);
         }
       })
-      .catch((err) => console.error("خطا در دریافت داده‌های نتایج:", err));
+      .catch((err) => console.error("خطا در دریافت نتایج:", err));
   </script>
 </body>
 </html>
