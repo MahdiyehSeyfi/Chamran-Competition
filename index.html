@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>جدول رده‌بندی مسابقات</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #f8f8f8; }
-    table { margin: 30px auto; border-collapse: collapse; width: 80%; max-width: 700px; background: white; }
-    th, td { border: 1px solid #ccc; padding: 8px; }
+    body { font-family: sans-serif; text-align: center; background: #f8f8f8; direction: rtl; }
+    table { margin: 30px auto; border-collapse: collapse; width: 90%; max-width: 700px; background: white; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
     th { background: #3f51b5; color: white; }
+    tr:nth-child(even) { background: #f2f2f2; }
   </style>
 </head>
 <body>
   <h1>⚽ جدول رده‌بندی فوتسال</h1>
-  <table id="rankingTable">
-    <tr><th>تیم</th><th>بازی</th><th>برد</th><th>باخت</th><th>امتیاز</th></tr>
-  </table>
+  <table id="rankingTable"></table>
 
   <script>
-    
-    const sheetUrl = https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv;
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv";
 
     fetch(sheetUrl)
       .then(res => res.text())
       .then(csv => {
-        const rows = csv.split("\n").map(r => r.split(","));
+        const rows = csv.trim().split("\n").map(r => r.split(","));
         const table = document.getElementById("rankingTable");
-        for (let i = 1; i < rows.length; i++) {
+
+        rows.forEach((row, i) => {
           const tr = document.createElement("tr");
-          rows[i].forEach(cell => {
-            const td = document.createElement("td");
-            td.textContent = cell;
-            tr.appendChild(td);
+          row.forEach(cell => {
+            const el = document.createElement(i === 0 ? "th" : "td");
+            el.textContent = cell.trim();
+            tr.appendChild(el);
           });
           table.appendChild(tr);
-        }
-      });
+        });
+      })
+      .catch(err => console.error("خطا در دریافت داده‌ها:", err));
   </script>
 </body>
 </html>
