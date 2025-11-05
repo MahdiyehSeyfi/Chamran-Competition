@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جدول رده‌بندی مسابقات</title>
+  <title>جدول رده‌بندی و بازی‌های آینده</title>
   <style>
     body {
       font-family: "Vazir", sans-serif;
-      text-align: center;
       background: #f8f9fa;
-      direction: rtl;
-    }
-
-    h1 {
-      margin-top: 30px;
       color: #222;
-      font-size: 28px;
+      text-align: center;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
     }
 
+    h1, h2 {
+      margin-top: 40px;
+      color: #222;
+    }
+
+    /* جدول رده‌بندی */
     table {
       margin: 30px auto;
       border-collapse: collapse;
@@ -25,6 +28,8 @@
       max-width: 800px;
       background: white;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     th, td {
@@ -45,18 +50,70 @@
     td:last-child {
       font-weight: bold;
     }
+
+    /* بخش کارت‌های بازی‌های آینده */
+    .matches-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px auto 60px auto;
+      max-width: 1000px;
+    }
+
+    .match-card {
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 260px;
+      padding: 18px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .match-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .teams {
+      font-size: 18px;
+      font-weight: bold;
+      color: #3f51b5;
+      margin-bottom: 8px;
+    }
+
+    .divider {
+      font-size: 20px;
+      margin: 0 6px;
+      color: #444;
+    }
+
+    .match-info {
+      font-size: 14px;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .emoji {
+      font-size: 16px;
+      margin-left: 5px;
+    }
   </style>
 </head>
 <body>
   <h1>⚽ جدول رده‌بندی فوتسال</h1>
   <table id="rankingTable"></table>
 
+  <h2>🗓 بازی‌های آینده</h2>
+  <div id="matches" class="matches-container"></div>
+
   <script>
-    // لینک CSV منتشر شده از Google Sheets
-    const sheetUrl =
+    /* 📊 جدول رده‌بندی */
+    const rankingUrl =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv";
 
-    fetch(sheetUrl)
+    fetch(rankingUrl)
       .then((res) => res.text())
       .then((csv) => {
         const rows = csv.trim().split("\n").map((r) => r.split(","));
@@ -65,14 +122,12 @@
         rows.forEach((row, i) => {
           const tr = document.createElement("tr");
 
-          // ساخت سلول‌ها
           row.forEach((cell) => {
             const el = document.createElement(i === 0 ? "th" : "td");
             el.textContent = cell.trim();
             tr.appendChild(el);
           });
 
-          // اضافه کردن ستون جدید برای "وضعیت"
           if (i === 0) {
             const th = document.createElement("th");
             th.textContent = "وضعیت";
@@ -95,8 +150,31 @@
 
           table.appendChild(tr);
         });
+      });
+
+    /* 🗓 بازی‌های آینده */
+    const matchesUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv"; // لینک CSV مخصوص شیت بازی‌ها
+
+    fetch(matchesUrl)
+      .then((res) => res.text())
+      .then((csv) => {
+        const rows = csv.trim().split("\n").map((r) => r.split(","));
+        const container = document.getElementById("matches");
+
+        for (let i = 1; i < rows.length; i++) {
+          const [team1, team2, date, time] = rows[i];
+          const card = document.createElement("div");
+          card.className = "match-card";
+          card.innerHTML = `
+            <div class="teams">${team1.trim()} <span class="divider">⚽</span> ${team2.trim()}</div>
+            <div class="match-info"><span class="emoji">📅</span> ${date.trim()}</div>
+            <div class="match-info"><span class="emoji">⏰</span> ${time.trim()}</div>
+          `;
+          container.appendChild(card);
+        }
       })
-      .catch((err) => console.error("خطا در دریافت داده‌ها:", err));
+      .catch((err) => console.error("خطا در دریافت داده‌های بازی‌ها:", err));
   </script>
 </body>
 </html>
