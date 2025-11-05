@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جدول رده‌بندی، نتایج و بازیکنان مؤثر</title>
+  <title>جدول رده‌بندی، بازی‌ها و بازیکنان مؤثر</title>
   <style>
     body {
       font-family: "Vazir", sans-serif;
@@ -20,8 +20,12 @@
       color: #222;
     }
 
+    /* جدول اصلی رده‌بندی */
     table {
+      margin: 30px auto;
       border-collapse: collapse;
+      width: 90%;
+      max-width: 800px;
       background: white;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
@@ -30,21 +34,25 @@
 
     th, td {
       border: 1px solid #ccc;
-      padding: 8px;
+      padding: 10px;
       text-align: center;
-      font-size: 13px;
     }
 
     th {
       background: #3f51b5;
       color: white;
+      font-weight: bold;
     }
 
     tr:nth-child(even) {
       background: #f2f2f2;
     }
 
-    /* بخش کارت‌ها */
+    td:last-child {
+      font-weight: bold;
+    }
+
+    /* کارت‌ها */
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -69,6 +77,43 @@
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
     }
 
+    .teams {
+      font-size: 18px;
+      font-weight: bold;
+      color: #3f51b5;
+      margin-bottom: 8px;
+    }
+
+    .divider {
+      font-size: 20px;
+      margin: 0 6px;
+      color: #444;
+    }
+
+    .match-info, .result-info {
+      font-size: 14px;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .emoji {
+      font-size: 16px;
+      margin-left: 5px;
+    }
+
+    .goal-scorer {
+      font-size: 13px;
+      margin-top: 6px;
+      color: #333;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .cards {
+      margin-top: 6px;
+      font-size: 18px;
+    }
+
     /* بازیکنان مؤثر */
     .effective-container {
       display: flex;
@@ -85,6 +130,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
       overflow: hidden;
+      font-size: 13px;
     }
 
     .mini-table caption {
@@ -92,17 +138,20 @@
       color: white;
       font-weight: bold;
       padding: 10px;
+      font-size: 15px;
     }
 
     .mini-table th, .mini-table td {
       padding: 6px;
       border: 1px solid #ddd;
+      text-align: center;
     }
 
     .mini-table th {
-      background: #f1f1f1;
+      background: #f3f3f3;
+      color: #222;
+      font-weight: bold;
     }
-
   </style>
 </head>
 <body>
@@ -143,7 +192,7 @@
     const resultsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv";
     const effectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99452363&single=true&output=csv"; 
 
-    /* 🎯 بازیکنان مؤثر */
+    /* 🎯 جدول بازیکنان مؤثر */
     fetch(effectiveUrl)
       .then(res => res.text())
       .then(csv => {
@@ -157,7 +206,6 @@
           else if (type === "موثر") mvp.push(r);
         });
 
-        // جدول گل‌زنان
         const scorersBody = document.querySelector("#topScorers tbody");
         scorers.slice(0, 3).forEach(r => {
           const tr = document.createElement("tr");
@@ -165,7 +213,6 @@
           scorersBody.appendChild(tr);
         });
 
-        // جدول پاسورها
         const assistBody = document.querySelector("#topAssist tbody");
         assist.slice(0, 3).forEach(r => {
           const tr = document.createElement("tr");
@@ -173,7 +220,6 @@
           assistBody.appendChild(tr);
         });
 
-        // جدول مؤثرترین‌ها
         const mvpBody = document.querySelector("#topMVP tbody");
         mvp.slice(0, 3).forEach(r => {
           const tr = document.createElement("tr");
@@ -181,6 +227,8 @@
           mvpBody.appendChild(tr);
         });
       });
+
+    /* سایر بخش‌ها مثل قبل: جدول، بازی‌ها و نتایج (در همین فایل نگه‌دار) */
   </script>
 </body>
 </html>
