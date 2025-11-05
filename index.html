@@ -5,11 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>جدول رده‌بندی مسابقات</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #f8f8f8; direction: rtl; }
-    table { margin: 30px auto; border-collapse: collapse; width: 90%; max-width: 700px; background: white; }
-    th, td { border: 1px solid #ccc; padding: 10px; }
-    th { background: #3f51b5; color: white; }
-    tr:nth-child(even) { background: #f2f2f2; }
+    body {
+      font-family: "Vazir", sans-serif;
+      text-align: center;
+      background: #f8f9fa;
+      direction: rtl;
+    }
+
+    h1 {
+      margin-top: 30px;
+      color: #222;
+      font-size: 28px;
+    }
+
+    table {
+      margin: 30px auto;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 800px;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #3f51b5;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+
+    td:last-child {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -17,25 +52,51 @@
   <table id="rankingTable"></table>
 
   <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv";
+    // لینک CSV منتشر شده از Google Sheets
+    const sheetUrl =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?output=csv";
 
     fetch(sheetUrl)
-      .then(res => res.text())
-      .then(csv => {
-        const rows = csv.trim().split("\n").map(r => r.split(","));
+      .then((res) => res.text())
+      .then((csv) => {
+        const rows = csv.trim().split("\n").map((r) => r.split(","));
         const table = document.getElementById("rankingTable");
 
         rows.forEach((row, i) => {
           const tr = document.createElement("tr");
-          row.forEach(cell => {
+
+          // ساخت سلول‌ها
+          row.forEach((cell) => {
             const el = document.createElement(i === 0 ? "th" : "td");
             el.textContent = cell.trim();
             tr.appendChild(el);
           });
+
+          // اضافه کردن ستون جدید برای "وضعیت"
+          if (i === 0) {
+            const th = document.createElement("th");
+            th.textContent = "وضعیت";
+            tr.appendChild(th);
+          } else if (i === 1 || i === 2) {
+            tr.style.backgroundColor = "#d4edda"; // سبز کمرنگ
+            const td = document.createElement("td");
+            td.textContent = "صعودکننده";
+            tr.appendChild(td);
+          } else if (i === 3) {
+            tr.style.backgroundColor = "#fff3cd"; // زرد کمرنگ
+            const td = document.createElement("td");
+            td.textContent = "تعقیب‌کننده";
+            tr.appendChild(td);
+          } else {
+            const td = document.createElement("td");
+            td.textContent = "-";
+            tr.appendChild(td);
+          }
+
           table.appendChild(tr);
         });
       })
-      .catch(err => console.error("خطا در دریافت داده‌ها:", err));
+      .catch((err) => console.error("خطا در دریافت داده‌ها:", err));
   </script>
 </body>
 </html>
