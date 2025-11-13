@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>سیستم مسابقات فوتسال</title>
+
   <style>
     body {
       font-family: "Vazir", sans-serif;
       background: #f8f9fa;
       color: #222;
       text-align: center;
-      direction: rtl;
       margin: 0;
       padding: 0;
     }
@@ -81,9 +81,6 @@
     #rankingTable tr:nth-child(2) {
       background: #d9f7d9 !important;
       font-weight: bold;
-    } {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
     }
 
     table.modern-table tr:hover {
@@ -187,40 +184,27 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>سیستم مسابقات فوتسال</h1>
 
   <!-- ------------------- تب‌ها ------------------- -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('rankingTab')">⚽ جدول رده‌بندی</button>
-    <button class="tab-btn" onclick="showTab('teamsTab')">👥 تیم‌های ثبت‌نامی</button>
+    <button class="tab-btn active" onclick="showTab('gamesTab')">🎮 بازی‌ها</button>
+    <button class="tab-btn" onclick="showTab('teamsTab')">👥 تیم‌ها</button>
   </div>
 
-  <!-- تب ۱: جدول رده‌بندی -->
-  <div id="rankingTab" class="tab-content active">
+  <!-- ------------------- تب بازی‌ها ------------------- -->
+  <div id="gamesTab" class="tab-content active">
+
     <table id="rankingTable" class="modern-table"></table>
-  </div>
 
-  <!-- تب ۲: تیم‌ها -->
-  <div id="teamsTab" class="tab-content">
-    <table id="teamsTable" class="modern-table">
-      <thead>
-        <tr><th>نام تیم</th><th>سرگروه</th><th>بازیکنان</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  </div>
-
-  <!-- بخش کارت‌ها و تأثیرگذارها فقط برای تب جدول -->
-  <div id="rankingExtras">
     <h2>📅 بازی‌های آینده</h2>
     <div id="matches" class="card-container"></div>
 
     <h2>🏆 نتایج بازی‌ها</h2>
-    <div id="results" class="card-container"></div>" class="card-container"></div>
+    <div id="results" class="card-container"></div>
 
     <h2>🌟 بازیکنان مؤثر</h2>
     <div class="effective-container">
@@ -242,17 +226,26 @@
         <tbody></tbody>
       </table>
     </div>
+
+  </div>
+
+  <!-- ------------------- تب تیم‌ها ------------------- -->
+  <div id="teamsTab" class="tab-content">
+    <table id="teamsTable" class="modern-table">
+      <thead>
+        <tr><th>نام تیم</th><th>سرگروه</th><th>اعضا</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 
   <script>
     /* لینک‌ها */
-    const rankingUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=0&single=true&output=csv";
-    const matchesUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1831919756&single=true&output=csv";
-    const resultsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv";
-    const effectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99452363&single=true&output=csv";
-
-    /* اگر شیت تیم‌ها داری این خط را تغییر بده */
-    const teamsUrl = "https://docs.google.com/spreadsheets/d/------/pub?output=csv";
+    const rankingUrl = "YOUR_RANKING_CSV";
+    const matchesUrl = "YOUR_MATCHES_CSV";
+    const resultsUrl = "YOUR_RESULTS_CSV";
+    const effectiveUrl = "YOUR_EFFECTIVE_CSV";
+    const teamsUrl = "YOUR_TEAMS_CSV";
 
     /* ------------------- مدیریت تب‌ها ------------------- */
     function showTab(tabId) {
@@ -261,14 +254,6 @@
 
       event.target.classList.add('active');
       document.getElementById(tabId).classList.add('active');
-
-      const extras = document.getElementById('rankingExtras');
-      extras.style.display = tabId === 'rankingTab' ? 'block' : 'none';
-    }(tabId) {
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-      document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
-      event.target.classList.add("active");
-      document.getElementById(tabId).classList.add("active");
     }
 
     /* ------------------- جدول رده‌بندی ------------------- */
@@ -313,15 +298,15 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-            <div class="teams">${team1.trim()} <span class="divider">⚽</span> ${team2.trim()}</div>
-            <div class="match-info">📅 ${date.trim()}</div>
-            <div class="match-info">⏰ ${time.trim()}</div>
+            <div class="teams">${team1} <span class="divider">⚽</span> ${team2}</div>
+            <div class="match-info">📅 ${date}</div>
+            <div class="match-info">⏰ ${time}</div>
           `;
           container.appendChild(card);
         }
       });
 
-    /* ------------------- نتایج ------------------- */
+    /* ------------------- نتایج بازی‌ها ------------------- */
     fetch(resultsUrl)
       .then(res => res.text())
       .then(csv => {
@@ -333,11 +318,11 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-            <div class="teams">${team1.trim()} ${score1.trim()} <span class="divider">⚽</span> ${score2.trim()} ${team2.trim()}</div>
-            <div class="result-info goal-scorer"><b>${team1.trim()}:</b> ${scorers1 || "-"}</div>
-            ${cards1 ? `<div class="cards">${cards1.trim()}</div>` : ""}
-            <div class="result-info goal-scorer"><b>${team2.trim()}:</b> ${scorers2 || "-"}</div>
-            ${cards2 ? `<div class="cards">${cards2.trim()}</div>` : ""}
+            <div class="teams">${team1} ${score1} <span class="divider">⚽</span> ${score2} ${team2}</div>
+            <div class="result-info goal-scorer"><b>${team1}:</b> ${scorers1 || "-"}</div>
+            ${cards1 ? `<div class="cards">${cards1}</div>` : ""}
+            <div class="result-info goal-scorer"><b>${team2}:</b> ${scorers2 || "-"}</div>
+            ${cards2 ? `<div class="cards">${cards2}</div>` : ""}
           `;
           container.appendChild(card);
         }
@@ -351,7 +336,7 @@
         const scorers = [], assist = [], mvp = [];
 
         rows.forEach(r => {
-          const type = r[0].trim();
+          const type = r[0];
           if (type === "گلزن") scorers.push(r);
           else if (type === "پاسور") assist.push(r);
           else if (type === "موثر") mvp.push(r);
@@ -372,7 +357,7 @@
           mvpBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`;
         });
       });
-
   </script>
+
 </body>
 </html>
