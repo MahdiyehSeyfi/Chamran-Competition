@@ -84,9 +84,8 @@
 
     /* ------------------- جداول کوچک (همسان با جدول رده‌بندی) ------------------- */
     table.mini-table {
-      margin: 25px auto;
-      width: 90%;
-      max-width: 300px;
+      margin: 25px 0;
+      width: 300px;
       border-collapse: separate;
       border-spacing: 0;
       overflow: hidden;
@@ -109,6 +108,15 @@
 
     table.mini-table tr:hover {
       background: #f5f7ff;
+    }
+
+    /* بخش بازیکنان مؤثر: نمایش سه جدول در یک ردیف */
+    .effective-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: nowrap;
+      margin: 40px auto;
     }
 
     /* ------------------- کارت‌ها برای بازی‌ها و نتایج ------------------- */
