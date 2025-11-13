@@ -229,8 +229,8 @@
       margin: 30px auto;
       width: 90%;
       max-width: 600px;
-      /* پس‌زمینه کمی متفاوت برای کارت نظرات */
-      background: #f5f7ff;
+      /* پس‌زمینه‌ی سفید برای کارت نظرات (بدون هایلایت) */
+      background: #ffffff;
       border-radius: 14px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
       padding: 30px 20px 50px;
@@ -248,6 +248,7 @@
       font-size: 18px;
       margin-bottom: 12px;
       color: #333;
+      font-weight: bold;
     }
     .comment-info {
       font-size: 14px;
@@ -282,6 +283,13 @@
       right: 10px;
     }
 
+    /* استایل عنوان بخش نظرات بازیکنان قبل از بازی */
+    .comments-title {
+      color: #ff9800;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
   </style>
 </head>
 <body>
@@ -302,7 +310,7 @@
     <div id="matches" class="card-container"></div>
 
     <!-- اسلایدر نظرات بازیکنان قبل از بازی -->
-    <h2>💬  نظرات بازیکنان قبل از بازی</h2>
+    <h2 class="comments-title">💬  نظرات بازیکنان قبل از بازی</h2>
     <div id="commentsSlider" class="comments-slider"></div>
 
     <h2>🏆 نتایج بازی‌ها</h2>
