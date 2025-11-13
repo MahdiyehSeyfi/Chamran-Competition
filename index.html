@@ -229,7 +229,8 @@
       margin: 30px auto;
       width: 90%;
       max-width: 600px;
-      background: #ffffff;
+      /* پس‌زمینه کمی متفاوت برای کارت نظرات */
+      background: #f5f7ff;
       border-radius: 14px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
       padding: 30px 20px 50px;
@@ -285,11 +286,11 @@
 </head>
 <body>
 
-  <h1>سیستم مسابقات فوتسال</h1>
+  <h1>لایو مسابقات</h1>
 
   <!-- ------------------- تب‌ها ------------------- -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('rankingTab')">⚽ جدول رده‌بندی</button>
+    <button class="tab-btn active" onclick="showTab('rankingTab')">⚽ بازی‌های فوتسال</button>
     <button class="tab-btn" onclick="showTab('teamsTab')">👥 تیم‌های ثبت‌نامی</button>
   </div>
 
@@ -301,13 +302,13 @@
     <div id="matches" class="card-container"></div>
 
     <!-- اسلایدر نظرات بازیکنان قبل از بازی -->
-    <h2>💬 نظرات بازیکنان</h2>
+    <h2>💬  نظرات بازیکنان قبل از بازی</h2>
     <div id="commentsSlider" class="comments-slider"></div>
 
     <h2>🏆 نتایج بازی‌ها</h2>
     <div id="results" class="card-container"></div>
 
-    <h2>🌟 بازیکنان مؤثر</h2>
+    <h2>🌟 بازیکنان موثر</h2>
     <div class="effective-container">
       <table id="topScorers" class="mini-table">
         <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
@@ -339,6 +340,11 @@
   const resultsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv";
   const effectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99452363&single=true&output=csv";
   const teamsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=136534848&single=true&output=csv";
+
+  /* لینک شیت نظرات بازیکنان (برای اسلایدر نظرات) */
+  // توجه: لینک زیر باید با لینک شیت منتشر شده شما جایگزین شود.
+  // شیت باید شامل سه ستون باشد: نظر (متن نظر)، نام (نام بازیکن) و تیم (نام تیم)
+  const commentsUrl = "https://docs.google.com/spreadsheets/d/e/REPLACE_WITH_YOUR_SHEET_ID/pub?gid=0&single=true&output=csv";
 
   /* داده‌های نظرات بازیکنان قبل از بازی */
   const commentsData = [
@@ -464,12 +470,13 @@
       });
     });
 
-  /* اسلایدر نظرات بازیکنان قبل از بازی */
-  (function initCommentsSlider() {
+  /* خواندن نظرات از شیت و ایجاد اسلایدر نظرات بازیکنان */
+  function buildCommentsSlider(data) {
     const slider = document.getElementById("commentsSlider");
     if (!slider) return;
-    // ایجاد اسلایدها بر اساس داده‌ها
-    commentsData.forEach((c, i) => {
+    slider.innerHTML = "";
+    // ایجاد اسلایدها بر اساس داده‌های ورودی
+    data.forEach((c, i) => {
       const slide = document.createElement("div");
       slide.className = "slide" + (i === 0 ? " active" : "");
       slide.innerHTML = `
@@ -500,18 +507,47 @@
       current = index;
     }
     prevBtn.addEventListener("click", () => {
-      const index = (current - 1 + commentsData.length) % commentsData.length;
+      const index = (current - 1 + data.length) % data.length;
       show(index);
     });
     nextBtn.addEventListener("click", () => {
-      const index = (current + 1) % commentsData.length;
+      const index = (current + 1) % data.length;
       show(index);
     });
     // تغییر خودکار هر ۵ ثانیه
     setInterval(() => {
-      const index = (current + 1) % commentsData.length;
+      const index = (current + 1) % data.length;
       show(index);
     }, 5000);
+  }
+
+  // دریافت نظرات از شیت نظرات و ایجاد اسلایدر
+  (function loadComments() {
+    fetch(commentsUrl)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n").map(r => r.split(","));
+        const parsed = [];
+        for (let i = 1; i < rows.length && parsed.length < 3; i++) {
+          const row = rows[i].map(x => x.trim());
+          // فرض می‌کنیم ترتیب ستون‌ها: نظر، نام، تیم
+          const text = row[0] || "";
+          const name = row[1] || "";
+          const team = row[2] || "";
+          if (text) {
+            parsed.push({ text, name, team });
+          }
+        }
+        if (parsed.length) {
+          buildCommentsSlider(parsed);
+        } else {
+          buildCommentsSlider(commentsData);
+        }
+      })
+      .catch(err => {
+        // در صورت خطا یا عدم دسترسی به شیت، از داده‌های پیش‌فرض استفاده می‌کنیم
+        buildCommentsSlider(commentsData);
+      });
   })();
 
 </script>
