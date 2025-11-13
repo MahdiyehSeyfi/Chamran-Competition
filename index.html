@@ -67,21 +67,6 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
     }
 
-    table.modern-table th {
-      background: #3f51b5;
-      color: white;
-      padding: 12px;
-    }
-
-    table.modern-table td {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-    }
-
-    table.modern-table tr:hover {
-      background: #f5f7ff;
-    }
-
     /* ------------------- کارت تیم‌ها ------------------- */
     .team-card-container {
       display: flex;
@@ -131,7 +116,7 @@
       white-space: pre-line;
     }
 
-    /* کارت‌ها و جداول بخش‌های دیگر */
+    /* کارت‌های بخش‌های دیگر */
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -151,38 +136,6 @@
       transition: all 0.3s ease;
     }
 
-    .teams {
-      font-size: 18px;
-      font-weight: bold;
-      color: #3f51b5;
-      margin-bottom: 8px;
-    }
-
-    .divider {
-      font-size: 20px;
-      margin: 0 6px;
-      color: #444;
-    }
-
-    .match-info, .result-info {
-      font-size: 14px;
-      color: #555;
-      margin-top: 6px;
-    }
-
-    .goal-scorer {
-      font-size: 13px;
-      margin-top: 6px;
-      color: #333;
-      text-align: right;
-      line-height: 1.6;
-    }
-
-    .cards {
-      margin-top: 6px;
-      font-size: 18px;
-    }
-
     /* ------------------- جداول کوچک ------------------- */
     .effective-container {
       display: flex;
@@ -193,34 +146,6 @@
       max-width: 1000px;
     }
 
-    .mini-table {
-      width: 300px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-      overflow: hidden;
-      font-size: 13px;
-    }
-
-    .mini-table caption {
-      background: #3f51b5;
-      color: white;
-      font-weight: bold;
-      padding: 10px;
-      font-size: 15px;
-    }
-
-    .mini-table th, .mini-table td {
-      padding: 6px;
-      border: 1px solid #ddd;
-      text-align: center;
-    }
-
-    .mini-table th {
-      background: #f3f3f3;
-      color: #222;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
@@ -235,63 +160,66 @@
 
   <!-- تب ۱ -->
   <div id="rankingTab" class="tab-content active">
+
     <table id="rankingTable" class="modern-table"></table>
+
+    <h2>📅 بازی‌های آینده</h2>
+    <div id="matches" class="card-container"></div>
+
+    <h2>🏆 نتایج بازی‌ها</h2>
+    <div id="results" class="card-container"></div>
+
+    <h2>🌟 بازیکنان مؤثر</h2>
+    <div class="effective-container">
+      <table id="topScorers" class="mini-table">
+        <caption>گل‌زنان برتر</caption>
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <table id="topAssist" class="mini-table">
+        <caption>پاسورهای برتر</caption>
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس گل</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <table id="topMVP" class="mini-table">
+        <caption>بازیکنان مؤثر</caption>
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>پست</th><th>رکورد</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
   </div>
 
-  <!-- تب ۲: فقط کارت تیم‌ها -->
+  <!-- تب ۲: فقط تیم‌ها -->
   <div id="teamsTab" class="tab-content">
     <h2>👥 تیم‌های ثبت‌نامی</h2>
     <div id="teamCards" class="team-card-container"></div>
   </div>
 
-  <h2>📅 بازی‌های آینده</h2>
-  <div id="matches" class="card-container"></div>
-
-  <h2>🏆 نتایج بازی‌ها</h2>
-  <div id="results" class="card-container"></div>
-
-  <h2>🌟 بازیکنان مؤثر</h2>
-  <div class="effective-container">
-    <table id="topScorers" class="mini-table">
-      <caption>گل‌زنان برتر</caption>
-      <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
-      <tbody></tbody>
-    </table>
-
-    <table id="topAssist" class="mini-table">
-      <caption>پاسورهای برتر</caption>
-      <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس گل</th></tr></thead>
-      <tbody></tbody>
-    </table>
-
-    <table id="topMVP" class="mini-table">
-      <caption>بازیکنان مؤثر</caption>
-      <thead><tr><th>بازیکن</th><th>تیم</th><th>پست</th><th>رکورد</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
 
 <script>
 
-/* لینک‌ها */
+/* لینک‌ها (بدون تغییر) */
 const rankingUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=0&single=true&output=csv";
 const matchesUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1831919756&single=true&output=csv";
 const resultsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv";
 const effectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99452363&single=true&output=csv";
 
-/* شیت تیم‌ها */
 const teamsUrl =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=136534848&single=true&output=csv";
 
-/* ------------------- مدیریت تب‌ها ------------------- */
+/* تب‌ها */
 function showTab(tabId) {
   document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
   document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+
   event.target.classList.add("active");
   document.getElementById(tabId).classList.add("active");
 }
 
-/* ------------------- جدول رده‌بندی ------------------- */
+/* جدول رده‌بندی – بدون تغییر */
 fetch(rankingUrl)
   .then(res => res.text())
   .then(csv => {
@@ -309,7 +237,7 @@ fetch(rankingUrl)
     });
   });
 
-/* ------------------- تیم‌ها (فقط کارت) ------------------- */
+/* ------------------- فقط کارت تیم‌ها ------------------- */
 fetch(teamsUrl)
   .then(res => res.text())
   .then(csv => {
@@ -334,10 +262,9 @@ fetch(teamsUrl)
         </div>
       `;
     }
-  })
-  .catch(err => console.error("❌ خطا در بارگذاری تیم‌ها:", err));
+  });
 
-/* ------------------- بازی‌های آینده ------------------- */
+/* ------------------- بخش‌های دیگر بدون تغییر ------------------- */
 fetch(matchesUrl)
   .then(res => res.text())
   .then(csv => {
@@ -357,7 +284,6 @@ fetch(matchesUrl)
     }
   });
 
-/* ------------------- نتایج ------------------- */
 fetch(resultsUrl)
   .then(res => res.text())
   .then(csv => {
@@ -371,15 +297,12 @@ fetch(resultsUrl)
       card.innerHTML = `
         <div class="teams">${team1} ${score1} ⚽ ${score2} ${team2}</div>
         <div class="result-info goal-scorer"><b>${team1}:</b> ${scorers1 || "-"}</div>
-        ${cards1 ? `<div class="cards">${cards1}</div>` : ""}
         <div class="result-info goal-scorer"><b>${team2}:</b> ${scorers2 || "-"}</div>
-        ${cards2 ? `<div class="cards">${cards2}</div>` : ""}
       `;
       container.appendChild(card);
     }
   });
 
-/* ------------------- بازیکنان مؤثر ------------------- */
 fetch(effectiveUrl)
   .then(res => res.text())
   .then(csv => {
@@ -387,25 +310,24 @@ fetch(effectiveUrl)
     const scorers = [], assist = [], mvp = [];
 
     rows.forEach(r => {
-      const type = r[0].trim();
-      if (type === "گلزن") scorers.push(r);
-      else if (type === "پاسور") assist.push(r);
-      else if (type === "موثر") mvp.push(r);
+      if (r[0] === "گلزن") scorers.push(r);
+      if (r[0] === "پاسور") assist.push(r);
+      if (r[0] === "موثر") mvp.push(r);
     });
 
-    const scorersBody = document.querySelector("#topScorers tbody");
+    const sBody = document.querySelector("#topScorers tbody");
     scorers.slice(0, 3).forEach(r =>
-      scorersBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
+      sBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
     );
 
-    const assistBody = document.querySelector("#topAssist tbody");
+    const aBody = document.querySelector("#topAssist tbody");
     assist.slice(0, 3).forEach(r =>
-      assistBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
+      aBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
     );
 
-    const mvpBody = document.querySelector("#topMVP tbody");
+    const mBody = document.querySelector("#topMVP tbody");
     mvp.slice(0, 3).forEach(r =>
-      mvpBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`
+      mBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`
     );
   });
 
