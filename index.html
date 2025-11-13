@@ -77,6 +77,15 @@
       border-bottom: 1px solid #eee;
     }
 
+    /* ردیف اول پس از هدر = صعودکننده */
+    #rankingTable tr:nth-child(2) {
+      background: #d9f7d9 !important;
+      font-weight: bold;
+    } {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
     table.modern-table tr:hover {
       background: #f5f7ff;
     }
@@ -203,31 +212,36 @@
     </table>
   </div>
 
-  <h2>📅 بازی‌های آینده</h2>
-  <div id="matches" class="card-container"></div>
+  </div>
 
-  <h2>🏆 نتایج بازی‌ها</h2>
-  <div id="results" class="card-container"></div>
+  <!-- بخش کارت‌ها و تأثیرگذارها فقط برای تب جدول -->
+  <div id="rankingExtras">
+    <h2>📅 بازی‌های آینده</h2>
+    <div id="matches" class="card-container"></div>
 
-  <h2>🌟 بازیکنان مؤثر</h2>
-  <div class="effective-container">
-    <table id="topScorers" class="mini-table">
-      <caption>گل‌زنان برتر</caption>
-      <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
-      <tbody></tbody>
-    </table>
+    <h2>🏆 نتایج بازی‌ها</h2>
+    <div id="results" class="card-container"></div>" class="card-container"></div>
 
-    <table id="topAssist" class="mini-table">
-      <caption>پاسورهای برتر</caption>
-      <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس گل</th></tr></thead>
-      <tbody></tbody>
-    </table>
+    <h2>🌟 بازیکنان مؤثر</h2>
+    <div class="effective-container">
+      <table id="topScorers" class="mini-table">
+        <caption>گل‌زنان برتر</caption>
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
+        <tbody></tbody>
+      </table>
 
-    <table id="topMVP" class="mini-table">
-      <caption>بازیکنان مؤثر</caption>
-      <thead><tr><th>بازیکن</th><th>تیم</th><th>پست</th><th>رکورد</th></tr></thead>
-      <tbody></tbody>
-    </table>
+      <table id="topAssist" class="mini-table">
+        <caption>پاسورهای برتر</caption>
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس گل</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <table id="topMVP" class="mini-table">
+        <caption>بازیکنان مؤثر</caption>
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>پست</th><th>رکورد</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
   <script>
@@ -242,6 +256,15 @@
 
     /* ------------------- مدیریت تب‌ها ------------------- */
     function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+
+      const extras = document.getElementById('rankingExtras');
+      extras.style.display = tabId === 'rankingTab' ? 'block' : 'none';
+    }(tabId) {
       document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
       document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
       event.target.classList.add("active");
