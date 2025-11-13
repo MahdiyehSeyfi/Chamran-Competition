@@ -7,12 +7,27 @@
   <style>
     body {
       font-family: "Vazir", sans-serif;
-      background: #f8f9fa;
+      /* تصویر پس‌زمینه برای کل سایت */
+      background: url("https://raw.githubusercontent.com/MahdiyehSeyfi/Chamran-Competition/main/23782296_6840416.jpg") no-repeat center center fixed;
+      background-size: cover;
       color: #222;
       text-align: center;
       direction: rtl;
       margin: 0;
       padding: 0;
+    }
+
+    /* لایه مات‌کننده برای پس‌زمینه: ایجاد افکت محو و شفافیت */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(6px);
+      z-index: -1;
     }
 
     h1 {
@@ -130,12 +145,15 @@
     }
 
     .card {
-      background: #ffffff;
+      /* کارت شفاف با افکت بلور (گلس مورفیسم) */
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 14px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
       width: 280px;
       padding: 18px;
       text-align: center;
+      backdrop-filter: blur(6px);
       transition: all 0.3s ease;
     }
 
@@ -187,12 +205,15 @@
     }
 
     .team-card {
-      background: #ffffff;
+      /* کارت تیم با افکت شفاف و محو */
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 14px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
       width: 320px;
       padding: 22px;
       text-align: center;
+      backdrop-filter: blur(6px);
       transition: all 0.3s ease;
     }
 
@@ -229,12 +250,14 @@
       margin: 30px auto;
       width: 90%;
       max-width: 600px;
-      /* پس‌زمینه‌ی سفید برای کارت نظرات (بدون هایلایت) */
-      background: #ffffff;
+      /* کارت نظرات با پس‌زمینه نیمه‌شفاف و افکت بلور */
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
       padding: 30px 20px 50px;
       text-align: center;
+      backdrop-filter: blur(6px);
     }
     /* هر اسلاید به‌طور پیش‌فرض مخفی است */
     .comments-slider .slide {
