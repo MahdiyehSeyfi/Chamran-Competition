@@ -242,6 +242,10 @@
     <h2>📅 بازی‌های آینده</h2>
     <div id="matches" class="card-container"></div>
 
+    <!-- اسلایدر نظرات بازیکنان قبل از بازی -->
+    <h2>💬 نظرات بازیکنان</h2>
+    <div id="commentsSlider" class="comments-slider"></div>
+
     <h2>🏆 نتایج بازی‌ها</h2>
     <div id="results" class="card-container"></div>
 
@@ -277,6 +281,13 @@
   const resultsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv";
   const effectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99452363&single=true&output=csv";
   const teamsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=136534848&single=true&output=csv";
+
+  /* داده‌های نظرات بازیکنان قبل از بازی */
+  const commentsData = [
+    { name: "علی", team: "A", text: "برای این بازی آماده‌ایم و تمام تلاشمان را می‌کنیم!" },
+    { name: "مهدی", team: "B", text: "امیدوارم بازی جذابی باشد و نتیجه را ببریم." },
+    { name: "رضا", team: "C", text: "همه تمرین کرده‌ایم و برای برد آمده‌ایم." }
+  ].slice(0, 3); // حداکثر ۳ نظر
 
   /* مدیریت تب‌ها */
   function showTab(tabId) {
@@ -394,6 +405,56 @@
         mvpBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`;
       });
     });
+
+  /* اسلایدر نظرات بازیکنان قبل از بازی */
+  (function initCommentsSlider() {
+    const slider = document.getElementById("commentsSlider");
+    if (!slider) return;
+    // ایجاد اسلایدها بر اساس داده‌ها
+    commentsData.forEach((c, i) => {
+      const slide = document.createElement("div");
+      slide.className = "slide" + (i === 0 ? " active" : "");
+      slide.innerHTML = `
+        <p class="comment-text">"${c.text}"</p>
+        <p class="comment-info">${c.name} - بازیکن تیم ${c.team}</p>
+      `;
+      slider.appendChild(slide);
+    });
+    // دکمه‌های ناوبری
+    const prevBtn = document.createElement("div");
+    prevBtn.className = "nav prev";
+    prevBtn.innerHTML = "‹";
+    const nextBtn = document.createElement("div");
+    nextBtn.className = "nav next";
+    nextBtn.innerHTML = "›";
+    slider.appendChild(prevBtn);
+    slider.appendChild(nextBtn);
+    let current = 0;
+    function show(index) {
+      const slides = slider.querySelectorAll(".slide");
+      slides.forEach((el, idx) => {
+        if (idx === index) {
+          el.classList.add("active");
+        } else {
+          el.classList.remove("active");
+        }
+      });
+      current = index;
+    }
+    prevBtn.addEventListener("click", () => {
+      const index = (current - 1 + commentsData.length) % commentsData.length;
+      show(index);
+    });
+    nextBtn.addEventListener("click", () => {
+      const index = (current + 1) % commentsData.length;
+      show(index);
+    });
+    // تغییر خودکار هر ۵ ثانیه
+    setInterval(() => {
+      const index = (current + 1) % commentsData.length;
+      show(index);
+    }, 5000);
+  })();
 
 </script>
 
