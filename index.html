@@ -8,7 +8,7 @@
     body {
       font-family: "Vazir", sans-serif;
       /* تصویر پس‌زمینه برای کل سایت */
-      background: url("https://raw.githubusercontent.com/MahdiyehSeyfi/Chamran-Competition/main/pic1.jpg") no-repeat center center fixed;
+      background: url("23782296_6840416.jpg") no-repeat center center fixed;
       background-size: cover;
       color: #222;
       text-align: center;
@@ -26,6 +26,7 @@
       width: 100%;
       height: 100%;
       background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(6px);
       z-index: -1;
     }
 
@@ -145,10 +146,11 @@
 
     .card {
       /* کارت شفاف با افکت بلور (گلس مورفیسم) */
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      /* افزایش شفافیت کارت برای گلس‌مورفیسم */
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 14px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       width: 280px;
       padding: 18px;
       text-align: center;
@@ -205,10 +207,11 @@
 
     .team-card {
       /* کارت تیم با افکت شفاف و محو */
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      /* افزایش شفافیت کارت برای گلس‌مورفیسم */
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 14px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       width: 320px;
       padding: 22px;
       text-align: center;
@@ -250,10 +253,11 @@
       width: 90%;
       max-width: 600px;
       /* کارت نظرات با پس‌زمینه نیمه‌شفاف و افکت بلور */
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      /* افزایش شفافیت کارت نظرات */
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 14px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       padding: 30px 20px 50px;
       text-align: center;
       backdrop-filter: blur(6px);
@@ -310,6 +314,43 @@
       color: #ff9800;
       font-weight: bold;
       font-size: 20px;
+    }
+
+    /* تغییر رنگ تیترهای سایر بخش‌ها به سفید */
+    .tab-content h2:not(.comments-title) {
+      color: #ffffff;
+    }
+
+    /* ------------------- Media Queries برای نمایش در موبایل ------------------- */
+    @media (max-width: 600px) {
+      /* کارت‌ها و اسلایدر در عرض کامل با فاصله مناسب */
+      .card,
+      .team-card,
+      .comments-slider {
+        width: 90% !important;
+        margin: 0 auto 20px;
+      }
+      /* چیدمان عمودی برای کانتینرها */
+      .card-container,
+      .team-card-container,
+      .effective-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      /* جدول‌ها کوچک‌تر و قابل‌اسکرول */
+      table.modern-table,
+      table.mini-table {
+        width: 95% !important;
+        font-size: 13px;
+      }
+      /* کوچکتر کردن تیتر اصلی و دکمه‌های تب */
+      h1 {
+        font-size: 22px;
+      }
+      .tab-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
     }
 
   </style>
