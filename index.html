@@ -377,9 +377,14 @@
     <button class="tab-btn" onclick="showTab('teamsTab')">👥 تیم‌های ثبت‌نامی</button>
   </div>
 
-  <!-- تب ۱: جدول رده‌بندی -->
+  <!-- تب ۱: جدول رده‌بندی و سایر بخش‌های فوتسال -->
   <div id="rankingTab" class="tab-content active">
-    <table id="rankingTable" class="modern-table"></table>
+    <!-- دو جدول رده‌بندی برای گروه‌های A و B -->
+    <h2>گروه A</h2>
+    <table id="rankingTableA" class="modern-table"></table>
+
+    <h2>گروه B</h2>
+    <table id="rankingTableB" class="modern-table"></table>
 
     <h2>📅 بازی‌های آینده</h2>
     <div id="matches" class="card-container"></div>
@@ -456,21 +461,46 @@
     document.getElementById(tabId).classList.add("active");
   }
 
-  /* جدول رده‌بندی */
+  /* جدول رده‌بندی دو گروه (A و B) */
   fetch(rankingUrl)
     .then(res => res.text())
     .then(csv => {
       const rows = csv.trim().split("\n").map(r => r.split(","));
-      const table = document.getElementById("rankingTable");
-      rows.forEach((row, i) => {
-        const tr = document.createElement("tr");
-        row.forEach(cell => {
-          const el = document.createElement(i === 0 ? "th" : "td");
-          el.textContent = cell.trim();
-          tr.appendChild(el);
+      if (!rows.length) return;
+      // اولین ردیف به عنوان هدر در هر دو جدول استفاده می‌شود
+      const header = rows[0];
+      // داده‌ها بدون هدر
+      const dataRows = rows.slice(1);
+      // اندازه‌ی گروه: سه تیم برای گروه A و بقیه برای گروه B
+      const groupSize = 3;
+      const groupA = dataRows.slice(0, groupSize);
+      const groupB = dataRows.slice(groupSize);
+      // تابع برای ساخت جدول بر اساس داده‌ها
+      function buildTable(tableId, groupData) {
+        const table = document.getElementById(tableId);
+        // پاک کردن جدول در صورت وجود داده‌های قبلی
+        table.innerHTML = "";
+        // ایجاد سطر هدر
+        const headerRow = document.createElement("tr");
+        header.forEach(cell => {
+          const th = document.createElement("th");
+          th.textContent = cell.trim();
+          headerRow.appendChild(th);
         });
-        table.appendChild(tr);
-      });
+        table.appendChild(headerRow);
+        // ایجاد سطرهای داده
+        groupData.forEach(row => {
+          const tr = document.createElement("tr");
+          row.forEach(cell => {
+            const td = document.createElement("td");
+            td.textContent = cell.trim();
+            tr.appendChild(td);
+          });
+          table.appendChild(tr);
+        });
+      }
+      buildTable("rankingTableA", groupA);
+      buildTable("rankingTableB", groupB);
     });
 
   /* تیم‌ها - کارت‌ها با اعضای جدا */
