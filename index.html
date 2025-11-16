@@ -430,15 +430,10 @@
   const commentsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1054227646&single=true&output=csv";
 
   /*
-   * اسامی داورها برای کارت‌های بخش بازی‌های آینده
-   * اگر تعداد بازی‌ها از این تعداد بیشتر شود به صورت حلقه‌ای استفاده می‌شود.
+   * از این پس اطلاعات داورها از همان شیت بازی‌های آینده خوانده می‌شود.
+   * اگر تمایل دارید داورها را به‌صورت ثابت نگه دارید، می‌توانید آرایه‌ای مشابه زیر تعریف کنید
+   * و در بخش ساخت کارت‌ها از آن استفاده نمایید؛ اما در حالت پیش‌فرض این آرایه حذف شده است.
    */
-  const refereeNames = [
-    "علیرضا فغانی",
-    "بیژن حیدری",
-    "پیام حیدری",
-    "سعید مظفری زاده"
-  ];
 
   /* داده‌های نظرات بازیکنان قبل از بازی */
   const commentsData = [
@@ -505,16 +500,21 @@
       const rows = csv.trim().split("\n").map(r => r.split(","));
       const container = document.getElementById("matches");
       for (let i = 1; i < rows.length; i++) {
-        const [team1, team2, date, time] = rows[i];
-        // انتخاب داور به صورت چرخشی از لیست داورها
-        const referee = refereeNames[(i - 1) % refereeNames.length];
+        const row = rows[i];
+        // ترتیب ستون‌ها: تیم اول، تیم دوم، تاریخ، ساعت، داور (در صورت وجود)
+        const team1 = row[0] ? row[0].trim() : "";
+        const team2 = row[1] ? row[1].trim() : "";
+        const date  = row[2] ? row[2].trim() : "";
+        const time  = row[3] ? row[3].trim() : "";
+        const referee = row[4] ? row[4].trim() : "";
+
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <div class="teams">${team1.trim()} <span class="divider">⚽</span> ${team2.trim()}</div>
-          <div class="match-info">📅 ${date.trim()}</div>
-          <div class="match-info">⏰ ${time.trim()}</div>
-          <div class="referee-info">داور: ${referee}</div>
+          <div class="teams">${team1} <span class="divider">⚽</span> ${team2}</div>
+          <div class="match-info">📅 ${date}</div>
+          <div class="match-info">⏰ ${time}</div>
+          <div class="referee-info">داور: ${referee || "-"}</div>
         `;
         container.appendChild(card);
       }
