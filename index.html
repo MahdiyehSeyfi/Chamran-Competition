@@ -412,8 +412,11 @@
 
   <!-- تب ۲: تیم‌ها -->
   <div id="teamsTab" class="tab-content">
-    <h2>👥 تیم‌های ثبت‌نامی</h2>
-    <div id="teamCards" class="team-card-container"></div>
+    <h2>👥 تیم‌های ثبت‌نامی فوتسال</h2>
+    <div id="futsalTeamCards" class="team-card-container"></div>
+
+    <h2>🏐 تیم‌های ثبت‌نامی والیبال</h2>
+    <div id="volleyballTeamCards" class="team-card-container"></div>
   </div>
 
 <script>
@@ -423,6 +426,9 @@
   const resultsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1652426007&single=true&output=csv";
   const effectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99452363&single=true&output=csv";
   const teamsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=136534848&single=true&output=csv";
+
+  /* لینک شیت تیم‌های والیبال */
+  const volleyballTeamsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=99851871&single=true&output=csv";
 
   /* لینک شیت نظرات بازیکنان (برای اسلایدر نظرات) */
   // توجه: لینک زیر باید با لینک شیت منتشر شده شما جایگزین شود.
@@ -468,30 +474,36 @@
     });
 
   /* تیم‌ها - کارت‌ها با اعضای جدا */
-  fetch(teamsUrl)
-    .then(res => res.text())
-    .then(csv => {
-      const rows = csv.trim().split("\n").map(r => r.split(","));
-      const container = document.getElementById("teamCards");
-      container.innerHTML = "";
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i].map(x => x.trim());
-        const team = row[0] || "-";
-        const leader = row[1] || "-";
-        const playersRaw = row[2] || "";
-        const players = playersRaw ? playersRaw.split(/;|؛/) : [];
-        let playersHTML = players
-          .map(p => `<div class="player-item">${p.trim()}</div>`)
-          .join("");
-        container.innerHTML += `
-          <div class="team-card">
-            <div class="team-name">${team}</div>
-            <div class="team-leader">سرگروه: ${leader}</div>
-            ${playersHTML}
-          </div>
-        `;
-      }
-    });
+  function loadTeamCards(url, containerId) {
+    fetch(url)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n").map(r => r.split(","));
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i].map(x => x.trim());
+          const team = row[0] || "-";
+          const leader = row[1] || "-";
+          const playersRaw = row[2] || "";
+          const players = playersRaw ? playersRaw.split(/;|؛/) : [];
+          let playersHTML = players
+            .map(p => `<div class="player-item">${p.trim()}</div>`)
+            .join("");
+          container.innerHTML += `
+            <div class="team-card">
+              <div class="team-name">${team}</div>
+              <div class="team-leader">سرگروه: ${leader}</div>
+              ${playersHTML}
+            </div>
+          `;
+        }
+      });
+  }
+
+  // بارگذاری تیم‌های فوتسال و والیبال از شیت‌های جداگانه
+  loadTeamCards(teamsUrl, "futsalTeamCards");
+  loadTeamCards(volleyballTeamsUrl, "volleyballTeamCards");
 
   /* بازی‌های آینده */
   fetch(matchesUrl)
