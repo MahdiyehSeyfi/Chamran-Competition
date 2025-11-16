@@ -190,6 +190,18 @@
       line-height: 1.6;
     }
 
+    /*
+     * نمایش نام داور در کارت‌های بازی‌های آینده.
+     * این کلاس برای خط پایین کارت مسابقات استفاده می‌شود که
+     * نام داور را با قلم کوچک‌تر و رنگ خنثی‌تر نشان می‌دهد.
+     */
+    .referee-info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 8px;
+      text-align: center;
+    }
+
     .cards {
       margin-top: 6px;
       font-size: 18px;
@@ -417,6 +429,17 @@
   // شیت باید شامل سه ستون باشد: نظر (متن نظر)، نام (نام بازیکن) و تیم (نام تیم)
   const commentsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1054227646&single=true&output=csv";
 
+  /*
+   * اسامی داورها برای کارت‌های بخش بازی‌های آینده
+   * اگر تعداد بازی‌ها از این تعداد بیشتر شود به صورت حلقه‌ای استفاده می‌شود.
+   */
+  const refereeNames = [
+    "علیرضا فغانی",
+    "بیژن حیدری",
+    "پیام حیدری",
+    "سعید مظفری زاده"
+  ];
+
   /* داده‌های نظرات بازیکنان قبل از بازی */
   const commentsData = [
     { name: "علی", team: "A", text: "برای این بازی آماده‌ایم و تمام تلاشمان را می‌کنیم!" },
@@ -483,12 +506,15 @@
       const container = document.getElementById("matches");
       for (let i = 1; i < rows.length; i++) {
         const [team1, team2, date, time] = rows[i];
+        // انتخاب داور به صورت چرخشی از لیست داورها
+        const referee = refereeNames[(i - 1) % refereeNames.length];
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
           <div class="teams">${team1.trim()} <span class="divider">⚽</span> ${team2.trim()}</div>
           <div class="match-info">📅 ${date.trim()}</div>
           <div class="match-info">⏰ ${time.trim()}</div>
+          <div class="referee-info">داور: ${referee}</div>
         `;
         container.appendChild(card);
       }
