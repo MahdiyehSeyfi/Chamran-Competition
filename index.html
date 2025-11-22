@@ -370,6 +370,12 @@
   overflow: hidden;
 }
 
+    /* افکت طلایی متحرک کارت قهرمان — نسخه افقی */
+#championBox {
+  position: relative;
+  overflow: hidden;
+}
+
 #championBox::before {
   content: "";
   position: absolute;
@@ -378,20 +384,19 @@
   width: 200%;
   height: 100%;
   background: linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 220, 120, 0.45) 45%,
-      rgba(255, 235, 150, 0.75) 50%,
-      rgba(255, 220, 120, 0.45) 55%,
-      rgba(255, 255, 255, 0) 100%
+      90deg,  /* ←← این خط جهت نور را کاملاً افقی می‌کند */
+      rgba(255,255,255,0) 0%,
+      rgba(255,220,120,0.5) 50%,
+      rgba(255,255,255,0) 100%
   );
-  animation: goldShine 3.2s infinite linear;
+  animation: goldShine 2.8s infinite linear;
 }
 
 @keyframes goldShine {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(75%); }
 }
+
 
   </style>
 </head>
