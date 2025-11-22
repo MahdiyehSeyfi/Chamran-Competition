@@ -379,6 +379,49 @@
 
   <!-- تب ۱: جدول رده‌بندی و سایر بخش‌های فوتسال -->
   <div id="rankingTab" class="tab-content active">
+
+    <!-- 🏆 بخش تیم قهرمان -->
+<div id="championBox" 
+     style="
+        max-width:550px;
+        margin:40px auto 60px;
+        padding:30px 20px;
+        border-radius:22px;
+        background: linear-gradient(135deg, rgba(255,215,85,0.85), rgba(255,240,170,0.85));
+        box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        backdrop-filter: blur(6px);
+        color:#4a3a00;
+        text-align:center;
+     ">
+
+  <h2 style="margin-bottom:12px; font-size:28px; color:#4a3a00;">
+    🏆 تیم قهرمان رقابت‌ها
+  </h2>
+
+  <div style="font-size:24px; font-weight:bold; margin-bottom:18px;">
+    ✨ تیم تیزپا ✨
+  </div>
+
+  <div style="font-size:17px; margin-bottom:10px; font-weight:bold;">
+    اعضای تیم:
+  </div>
+
+  <div style="
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      font-size:16px;
+  ">
+      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 شیدا شیخه</div>
+      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 حدیث ظفری</div>
+      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 زینب دهقان</div>
+      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 فاطمه مالمیر</div>
+      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 مهسا نویدی پور</div>
+      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 فاطمه سادات موسوی</div>
+  </div>
+
+</div>
+
     <!-- دو جدول رده‌بندی برای گروه‌های A و B -->
     <h2>گروه A</h2>
     <table id="rankingTableA" class="modern-table"></table>
@@ -690,7 +733,6 @@
   })();
 
 </script>
-
 <canvas id="fireworksCanvas" 
         style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;">
 </canvas>
@@ -755,14 +797,11 @@
   setTimeout(() => {
     clearInterval(fireInterval);
     setTimeout(() => canvas.remove(), 1500);
-    document.body.style.overflow = "auto";
-
-  }, 3000);
+  }, 10000);
 
   update();
 })();
 </script>
-
 
 </body>
 </html>
