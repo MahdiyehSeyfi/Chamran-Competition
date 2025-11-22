@@ -419,8 +419,57 @@
       <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 فاطمه سادات موسوی</div>
   </div>
 
+    <!-- ⭐ بخش افتخارات بازیکنان -->
+<div id="honorsBox"
+     style="
+        max-width:650px;
+        margin:0 auto 50px;
+        padding:20px;
+        border-radius:20px;
+        background:rgba(255,255,255,0.55);
+        backdrop-filter:blur(8px);
+        box-shadow:0 4px 16px rgba(0,0,0,0.20);
+        text-align:center;
+     ">
+
+  <h3 style="color:#6a4300; margin-bottom:20px; font-size:22px; font-weight:bold;">
+    🌟 برترین‌های مسابقات فوتسال
+  </h3>
+
+  <div style="
+     display:flex;
+     justify-content:center;
+     flex-wrap:wrap;
+     gap:15px;
+     font-size:15px;
+     font-weight:bold;
+  ">
+      <div style="background:#fff3cd; padding:10px 16px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+        🥇 گلزنان برتر: فاطمه فرج‌الهی، بهار نمکی، مهدیه سیفی
+      </div>
+
+      <div style="background:#d1ecf1; padding:10px 16px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+        🎯 پاسور برتر: زینب بیگلری
+      </div>
+
+      <div style="background:#fde2e4; padding:10px 16px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+        🛡 مدافع برتر: نسرین احسان‌دوست
+      </div>
+
+      <div style="background:#e2f0cb; padding:10px 16px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+        🧤 دروازه‌بان برتر: ریحانه حاجی‌زاده
+      </div>
+
+      <div style="background:#e8daef; padding:10px 16px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+        🌠 پدیده مسابقات: پرنیا فرامرزی
+      </div>
+  </div>
+
 </div>
 
+  
+</div>
+    
     <!-- دو جدول رده‌بندی برای گروه‌های A و B -->
     <h2>گروه A</h2>
     <table id="rankingTableA" class="modern-table"></table>
@@ -753,21 +802,36 @@
   function random(min, max) { return Math.random() * (max - min) + min; }
 
   function createFirework() {
-    const x = random(0, canvas.width);
-    const y = random(0, canvas.height / 2);
-    const colors = ["#ff5252", "#ffeb3b", "#69f0ae", "#40c4ff", "#e040fb"];
 
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x, y,
-        angle: random(0, Math.PI * 2),
-        speed: random(2, 5),
-        radius: random(2, 4),
-        color: colors[Math.floor(Math.random() * colors.length)],
-        life: 60
-      });
-    }
+  // آتش‌بازی بالا
+  createParticles(
+    random(0, canvas.width),
+    random(0, canvas.height * 0.25)
+  );
+
+  // آتش‌بازی وسط (برای موبایل عالی)
+  createParticles(
+    random(canvas.width * 0.2, canvas.width * 0.8),
+    canvas.height * 0.55
+  );
+}
+
+function createParticles(x, y) {
+  const colors = ["#ff5252", "#ffeb3b", "#69f0ae", "#40c4ff", "#e040fb"];
+
+  for (let i = 0; i < 40; i++) {
+    particles.push({
+      x,
+      y,
+      angle: random(0, Math.PI * 2),
+      speed: random(2, 5),
+      radius: random(2, 4),
+      color: colors[Math.floor(Math.random() * colors.length)],
+      life: 60
+    });
   }
+}
+
 
   function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -789,9 +853,6 @@
 
     requestAnimationFrame(update);
   }
-
-  // شروع آتش‌بازی هنگام ورود
-  let fireInterval = setInterval(createFirework, 300);
 
   // شروع آتش‌بازی هنگام ورود (بدون توقف)
 let fireInterval = setInterval(createFirework, 300);
