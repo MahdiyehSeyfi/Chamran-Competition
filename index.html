@@ -793,13 +793,18 @@
   // شروع آتش‌بازی هنگام ورود
   let fireInterval = setInterval(createFirework, 300);
 
-  // خاموش بعد از 3 ثانیه
+  // شروع آتش‌بازی هنگام ورود (بدون توقف)
+let fireInterval = setInterval(createFirework, 300);
+
+update(); // اجرای دائمی انیمیشن
+
+  /*// خاموش بعد از 3 ثانیه
   setTimeout(() => {
     clearInterval(fireInterval);
     setTimeout(() => canvas.remove(), 1500);
     document.body.style.overflow = "auto";
 
-  }, 10000);
+  }, 10000);*/
 
   update();
 })();
