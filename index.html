@@ -130,7 +130,7 @@
       display: flex;
       justify-content: center;
       gap: 20px;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       margin: 40px auto;
     }
 
@@ -371,6 +371,20 @@
       color: #333;
     }
 
+    /* استایل برای بخش‌های جدول بازیکنان والیبال */
+    .table-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+    .table-wrapper h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #000;
+    }
+
     /* ------------------- Media Queries برای نمایش در موبایل ------------------- */
     @media (max-width: 600px) {
       /* کارت‌ها و اسلایدر در عرض کامل با فاصله مناسب */
@@ -436,21 +450,56 @@
     <div id="volleyballResults" class="card-container"></div>
 
     <h2>🌟 بازیکنان موثر</h2>
-    <div class="effective-container">
-      <table id="volleyballTopScorers" class="mini-table">
-        <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
-        <tbody></tbody>
-      </table>
-
-      <table id="volleyballTopAssist" class="mini-table">
-        <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس گل</th></tr></thead>
-        <tbody></tbody>
-      </table>
-
-      <table id="volleyballTopMVP" class="mini-table">
-        <thead><tr><th>بازیکن</th><th>تیم</th><th>پست</th><th>رکورد</th></tr></thead>
-        <tbody></tbody>
-      </table>
+    <!-- شش جدول برای رده‌های مختلف بازیکنان والیبال -->
+    <div id="volleyballEffectiveContainer" class="effective-container">
+      <!-- برترین سرویس‌زنان -->
+      <div class="table-wrapper">
+        <h3>برترین سرویس‌زنان</h3>
+        <table id="volleyballTopServers" class="mini-table">
+          <thead><tr><th>بازیکن</th><th>تیم</th><th>سرویس موفق</th><th>سرویس ناموفق</th><th>سرویس Ace</th><th>رکورد نهایی</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- برترین دریافت‌کننده‌ها -->
+      <div class="table-wrapper">
+        <h3>برترین دریافت‌کننده‌ها</h3>
+        <table id="volleyballTopReceivers" class="mini-table">
+          <thead><tr><th>بازیکن</th><th>تیم</th><th>دریافت عالی</th><th>ناموفق</th><th>رکورد نهایی</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- برترین حمله‌کنندگان -->
+      <div class="table-wrapper">
+        <h3>برترین حمله‌کنندگان</h3>
+        <table id="volleyballTopAttackers" class="mini-table">
+          <thead><tr><th>بازیکن</th><th>تیم</th><th>حمله موفق</th><th>حمله ناموفق</th><th>رکورد نهایی</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- برترین مدافع -->
+      <div class="table-wrapper">
+        <h3>برترین مدافع</h3>
+        <table id="volleyballTopDefenders" class="mini-table">
+          <thead><tr><th>بازیکن</th><th>تیم</th><th>دفاع موفق</th><th>دفاع ناموفق</th><th>رکورد نهایی</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- برترین پاسور -->
+      <div class="table-wrapper">
+        <h3>برترین پاسور</h3>
+        <table id="volleyballTopSetters" class="mini-table">
+          <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس موفق</th><th>کسب امتیاز</th><th>رکورد نهایی</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- برترین نجات‌دهنده -->
+      <div class="table-wrapper">
+        <h3>برترین نجات‌دهنده</h3>
+        <table id="volleyballTopSavers" class="mini-table">
+          <thead><tr><th>بازیکن</th><th>تیم</th><th>نجات توپ</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -547,7 +596,8 @@
   const volleyballMatchesUrl  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=119765293&single=true&output=csv";
   const volleyballResultsUrl  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1389082896&single=true&output=csv";
   // برای بخش بازیکنان مؤثر والیبال هنوز لینک جداگانه ارائه نشده است، در نتیجه از لینک مشترک استفاده می‌شود
-  const volleyballEffectiveUrl = effectiveUrl;
+  // لینک بخش بازیکنان مؤثر والیبال
+  const volleyballEffectiveUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1253015944&single=true&output=csv";
   const volleyballCommentsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=537934344&single=true&output=csv";
 
   /*
@@ -850,48 +900,37 @@
       const container = document.getElementById("volleyballResults");
       if (!container) return;
       container.innerHTML = "";
-      // از ردیف ۱ شروع می‌کنیم تا هدر رد شود
+      // ردیف اول هدر است
       for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].map(x => x.trim());
-        if (!cells.length) continue;
-        // انتظار داریم ستون‌ها به ترتیب: تیم1، تیم2، تعداد ست‌های برد تیم1، تعداد ست‌های برد تیم2، سپس امتیاز هر ست، سپس بازیکنان برتر
-        const team1 = cells[0] || "";
-        const team2 = cells[1] || "";
-        const team1Sets = cells[2] || "";
-        const team2Sets = cells[3] || "";
-        // استخراج امتیاز هر ست: زوج‌های بعدی از ستون 4 به بعد، تا زمانی که مقدار عددی باشند
-        const sets = [];
-        let idx = 4;
-        while (idx + 1 < cells.length) {
-          const a = cells[idx];
-          const b = cells[idx + 1];
-          if (/^\d+$/.test(a) && /^\d+$/.test(b)) {
-            sets.push(`${a}-${b}`);
-            idx += 2;
-          } else {
-            break;
-          }
-        }
-        // نام بازیکنان برتر: ترتیب فرضی = مدافع، دریافت کننده، پاسور، حمله کننده، سرویس زن، لیبرو
-        const categoryNames = ["مدافع", "دریافت کننده", "پاسور", "حمله کننده", "سرویس زن", "لیبرو"];
-        const players = {};
-        let catIndex = 0;
-        for (let j = idx; j < cells.length && catIndex < categoryNames.length; j++, catIndex++) {
-          players[categoryNames[catIndex]] = cells[j] || "-";
-        }
-        // ساخت کارت
+        const row = rows[i].map(x => x.trim());
+        if (!row.length) continue;
+        // ساختار: تیم1، تیم2، نتیجه نهایی، ست1، ست2، ست3، مدافع، دریافت‌کننده، پاسور، حمله‌کننده، سرویس‌زن، لیبرو
+        const team1   = row[0] || "";
+        const team2   = row[1] || "";
+        const finalScore = row[2] || ""; // مثل 2–1
+        const set1    = row[3] || "";
+        const set2    = row[4] || "";
+        const set3    = row[5] || "";
+        const defender   = row[6] || "";
+        const receiver   = row[7] || "";
+        const passer     = row[8] || "";
+        const attacker   = row[9] || "";
+        const server     = row[10] || "";
+        const libero     = row[11] || "";
         const card = document.createElement("div");
         card.className = "card";
-        // متن بازیکنان برتر
-        const playersText = categoryNames
-          .map(cat => (players[cat] ? `${cat}: ${players[cat]}` : ""))
-          .filter(Boolean)
-          .join(" | ");
         card.innerHTML = `
-          <div class="teams">${team1} ${team1Sets} <span class="divider">🏐</span> ${team2Sets} ${team2}</div>
-          <div class="result-info"><b>امتیاز هر ست:</b> ${sets.length ? sets.join(' ، ') : '-'}</div>
+          <div class="teams">${team1} ${finalScore} <span class="divider">🏐</span> ${team2}</div>
+          <div class="result-info"><b>ست اول:</b> ${set1 || '-'}</div>
+          <div class="result-info"><b>ست دوم:</b> ${set2 || '-'}</div>
+          <div class="result-info"><b>ست سوم:</b> ${set3 || '-'}</div>
           <div class="result-info"><b>بازیکنان برتر:</b></div>
-          <div class="result-info goal-scorer">${playersText || '-'}</div>
+          <div class="result-info goal-scorer">مدافع: ${defender || '-'}</div>
+          <div class="result-info goal-scorer">دریافت‌کننده: ${receiver || '-'}</div>
+          <div class="result-info goal-scorer">پاسور: ${passer || '-'}</div>
+          <div class="result-info goal-scorer">حمله‌کننده: ${attacker || '-'}</div>
+          <div class="result-info goal-scorer">سرویس‌زن: ${server || '-'}</div>
+          <div class="result-info goal-scorer">لیبرو: ${libero || '-'}</div>
         `;
         container.appendChild(card);
       }
@@ -902,31 +941,72 @@
     .then(res => res.text())
     .then(csv => {
       const rows = csv.trim().split("\n").map(r => r.split(","));
-      const scorersV = [], assistV = [], mvpV = [];
-      rows.forEach(r => {
+      // آرایه‌ها برای هر دسته بازیکن
+      const servers = [];
+      const receivers = [];
+      const attackers = [];
+      const defenders = [];
+      const setters = [];
+      const savers = [];
+      // فرض می‌کنیم ستون اول نوع دسته است: مانند "سرویس"، "دریافت"، "حمله"، "دفاع"، "پاس"، "نجات"
+      rows.forEach((r, idx) => {
+        if (idx === 0) return; // skip header if exists
         const type = r[0] ? r[0].trim() : "";
-        if (type === "گلزن") scorersV.push(r);
-        else if (type === "پاسور") assistV.push(r);
-        else if (type === "موثر") mvpV.push(r);
+        // push whole row for mapping; rest columns correspond to metrics
+        switch (type) {
+          case "سرویس":
+          case "سرویس‌زن":
+            servers.push(r);
+            break;
+          case "دریافت":
+          case "دریافت‌کننده":
+            receivers.push(r);
+            break;
+          case "حمله":
+          case "حمله‌کننده":
+            attackers.push(r);
+            break;
+          case "دفاع":
+          case "مدافع":
+            defenders.push(r);
+            break;
+          case "پاس":
+          case "پاسور":
+            setters.push(r);
+            break;
+          case "نجات":
+          case "نجات‌دهنده":
+            savers.push(r);
+            break;
+          default:
+            break;
+        }
       });
-      const scorersBody = document.querySelector("#volleyballTopScorers tbody");
-      const assistBody  = document.querySelector("#volleyballTopAssist tbody");
-      const mvpBody     = document.querySelector("#volleyballTopMVP tbody");
-      if (scorersBody) {
-        scorersV.slice(0, 3).forEach(r => {
-          scorersBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`;
+      // تابع برای پر کردن جدول با داده‌ها
+      function fillTable(tableId, data, cols) {
+        const tbody = document.querySelector(`#${tableId} tbody`);
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        data.slice(0, 3).forEach(r => {
+          // r[1]=player, r[2]=team; subsequent columns correspond to metrics order specified
+          const player = r[1] || "-";
+          const team = r[2] || "-";
+          let rowHtml = `<tr><td>${player}</td><td>${team}</td>`;
+          for (let i = 0; i < cols.length; i++) {
+            const val = r[3 + i] || "-";
+            rowHtml += `<td>${val}</td>`;
+          }
+          rowHtml += `</tr>`;
+          tbody.innerHTML += rowHtml;
         });
       }
-      if (assistBody) {
-        assistV.slice(0, 3).forEach(r => {
-          assistBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`;
-        });
-      }
-      if (mvpBody) {
-        mvpV.slice(0, 3).forEach(r => {
-          mvpBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`;
-        });
-      }
+      // fill each table
+      fillTable("volleyballTopServers", servers, ["سرویس موفق", "سرویس ناموفق", "سرویس Ace", "رکورد نهایی"]);
+      fillTable("volleyballTopReceivers", receivers, ["دریافت عالی", "ناموفق", "رکورد نهایی"]);
+      fillTable("volleyballTopAttackers", attackers, ["حمله موفق", "حمله ناموفق", "رکورد نهایی"]);
+      fillTable("volleyballTopDefenders", defenders, ["دفاع موفق", "دفاع ناموفق", "رکورد نهایی"]);
+      fillTable("volleyballTopSetters", setters, ["پاس موفق", "کسب امتیاز", "رکورد نهایی"]);
+      fillTable("volleyballTopSavers", savers, ["نجات توپ"]);
     });
 
   /* ساخت اسلایدر نظرات والیبال */
