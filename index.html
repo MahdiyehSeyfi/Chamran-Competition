@@ -8,7 +8,7 @@
     body {
       font-family: "Vazir", sans-serif;
       /* تصویر پس‌زمینه برای کل سایت */
-      background: url("./pic11.jpg") no-repeat center center fixed;
+      background: url("./pic13.jpg") no-repeat center center fixed;
       background-size: cover;
       color: #222;
       text-align: center;
@@ -478,6 +478,147 @@
       font-size: 15px;
     }
 
+    /* -------------------------------------- */
+    /* Bracket عمودی برای مسابقات والیبال */
+    .vertical-bracket {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .vertical-bracket .qf-row,
+    .vertical-bracket .semi-row,
+    .vertical-bracket .final-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    /* فاصله بین ردیف‌ها */
+    .vertical-bracket .qf-row,
+    .vertical-bracket .semi-row,
+    .vertical-bracket .final-row {
+      margin: 20px 0;
+    }
+
+    .vertical-bracket .match {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      position: relative;
+    }
+
+    /* عرض کارت‌ها بر اساس نوع ردیف */
+    .vertical-bracket .qf-row .match {
+      width: 45%;
+    }
+    .vertical-bracket .semi-row .match {
+      width: 60%;
+      margin: 0 auto;
+    }
+    .vertical-bracket .final-row .match {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    .vertical-bracket .match .team {
+      font-size: 14px;
+      font-weight: bold;
+      color: #3f51b5;
+      padding: 6px;
+      display: block;
+    }
+    .vertical-bracket .match .team + .team {
+      margin-top: 4px;
+      border-top: 1px solid #ddd;
+      padding-top: 4px;
+    }
+
+    /* خطوط و اتصالات برای ردیف بالای کوارترفینال‌ها */
+    .vertical-bracket .qf-row.top-row .match.qf::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .vertical-bracket .qf-row.top-row::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* اتصال از نیمه‌نهایی بالا به فینال */
+    .vertical-bracket .semi-row.top-semi .match.semi::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* اتصال از نیمه‌نهایی پایین به فینال */
+    .vertical-bracket .semi-row.bottom-semi .match.semi::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* خطوط و اتصالات برای ردیف پایین کوارترفینال‌ها */
+    .vertical-bracket .qf-row.bottom-row .match.qf::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .vertical-bracket .qf-row.bottom-row::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    /* نمایش متمایز کارت فینال در براکت عمودی */
+    .vertical-bracket .match.final-match {
+      border: 2px solid #f7c948;
+      background: rgba(255, 223, 85, 0.25);
+    }
+    .vertical-bracket .match.final-match .team {
+      color: #d88a00;
+    }
+
     /* افکت هاور برای همه مسابقات: بزرگ‌نمایی و سایه‌ی ملایم */
     .bracket .match:hover {
       transform: translateY(-4px) scale(1.05);
@@ -516,44 +657,48 @@
     <!-- چهار بخش مشابه فوتسال برای والیبال: بازی‌های آینده، نظرات، نتایج، بازیکنان مؤثر -->
     <!-- جدول حذفی والیبال -->
     <h2>🏐 جدول حذفی</h2>
-    <div id="volleyballBracket" class="bracket">
-      <!-- ستون‌های جدول حذفی به ترتیب: مرحله اول (چپ)، نیمه‌نهایی چپ، فینال، نیمه‌نهایی راست، مرحله اول راست -->
-      <div class="round" id="left-quarter">
-        <div class="match" id="lqf1">
-          <div class="team" id="lqf1-team1">-</div>
-          <div class="team" id="lqf1-team2">-</div>
+    <div id="volleyballBracket" class="vertical-bracket">
+      <!-- ردیف بالای جدول حذفی: دو بازی مرحله اول (سابقاً سمت راست) -->
+      <div class="qf-row top-row">
+        <div class="match qf" id="tqf1">
+          <div class="team" id="tqf1-team1">-</div>
+          <div class="team" id="tqf1-team2">-</div>
         </div>
-        <div class="match" id="lqf2">
-          <div class="team" id="lqf2-team1">-</div>
-          <div class="team" id="lqf2-team2">-</div>
-        </div>
-      </div>
-      <div class="round" id="left-semi">
-        <div class="match" id="lsf">
-          <div class="team" id="lsf-team1">-</div>
-          <div class="team" id="lsf-team2">-</div>
+        <div class="match qf" id="tqf2">
+          <div class="team" id="tqf2-team1">-</div>
+          <div class="team" id="tqf2-team2">-</div>
         </div>
       </div>
-      <div class="round" id="final">
+      <!-- بازی نیمه نهایی بالا -->
+      <div class="semi-row top-semi">
+        <div class="match semi" id="tsemi">
+          <div class="team" id="tsemi-team1">-</div>
+          <div class="team" id="tsemi-team2">-</div>
+        </div>
+      </div>
+      <!-- بازی فینال -->
+      <div class="final-row">
         <div class="match final-match" id="final-match">
           <div class="team" id="final-team1">-</div>
           <div class="team" id="final-team2">-</div>
         </div>
       </div>
-      <div class="round" id="right-semi">
-        <div class="match" id="rsf">
-          <div class="team" id="rsf-team1">-</div>
-          <div class="team" id="rsf-team2">-</div>
+      <!-- بازی نیمه نهایی پایین -->
+      <div class="semi-row bottom-semi">
+        <div class="match semi" id="bsemi">
+          <div class="team" id="bsemi-team1">-</div>
+          <div class="team" id="bsemi-team2">-</div>
         </div>
       </div>
-      <div class="round" id="right-quarter">
-        <div class="match" id="rqf1">
-          <div class="team" id="rqf1-team1">-</div>
-          <div class="team" id="rqf1-team2">-</div>
+      <!-- ردیف پایین جدول حذفی: دو بازی مرحله اول (سابقاً سمت چپ) -->
+      <div class="qf-row bottom-row">
+        <div class="match qf" id="bqf3">
+          <div class="team" id="bqf3-team1">-</div>
+          <div class="team" id="bqf3-team2">-</div>
         </div>
-        <div class="match" id="rqf2">
-          <div class="team" id="rqf2-team1">-</div>
-          <div class="team" id="rqf2-team2">-</div>
+        <div class="match qf" id="bqf4">
+          <div class="team" id="bqf4-team1">-</div>
+          <div class="team" id="bqf4-team2">-</div>
         </div>
       </div>
     </div>
@@ -1249,12 +1394,16 @@
       const dataRows = rows.slice(1);
       // مقداردهی اولیه همه کارت‌ها به کاراکتر خط تیره
       const positions = {
-        "QF-L1": { t1: "lqf1-team1", t2: "lqf1-team2" },
-        "QF-L2": { t1: "lqf2-team1", t2: "lqf2-team2" },
-        "QF-R1": { t1: "rqf1-team1", t2: "rqf1-team2" },
-        "QF-R2": { t1: "rqf2-team1", t2: "rqf2-team2" },
-        "SF-L":  { t1: "lsf-team1",  t2: "lsf-team2" },
-        "SF-R":  { t1: "rsf-team1",  t2: "rsf-team2" },
+        // ردیف پایین: تیم‌های سمت چپ سابق (quarter finals)
+        "QF-L1": { t1: "bqf3-team1", t2: "bqf3-team2" },
+        "QF-L2": { t1: "bqf4-team1", t2: "bqf4-team2" },
+        // ردیف بالا: تیم‌های سمت راست سابق (quarter finals)
+        "QF-R1": { t1: "tqf1-team1", t2: "tqf1-team2" },
+        "QF-R2": { t1: "tqf2-team1", t2: "tqf2-team2" },
+        // نیمه‌نهایی پایین و بالا
+        "SF-L":  { t1: "bsemi-team1", t2: "bsemi-team2" },
+        "SF-R":  { t1: "tsemi-team1", t2: "tsemi-team2" },
+        // فینال
         "Final": { t1: "final-team1", t2: "final-team2" }
       };
       // ابتدا همه عناصر را با خط تیره پر می‌کنیم
