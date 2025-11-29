@@ -467,68 +467,31 @@
       border-top: 1px solid #ddd;
     }
 
-    /* متمایز کردن کارت فینال با رنگ و حاشیه طلایی */
-    /*
-     * کارت فینال با کلاس final-match به صورت ویژه طراحی می‌شود.
-     * از گرادیان شعاعی و سایه برای ایجاد ظاهری طلایی و انیمیشن پالس استفاده می‌شود.
-     */
+    /* متمایز کردن کارت فینال با رنگ و حاشیه طلایی (ساده) */
     .bracket .match.final-match {
-      border: 2px solid #f4b400;
-      background: radial-gradient(circle at top, #fff8e1, #ffe082);
-      box-shadow: 0 0 16px rgba(244, 180, 0, 0.7);
-      position: relative;
-      overflow: hidden;
-      animation: finalPulse 2.4s ease-in-out infinite;
-      transform: translateY(-4px);
+      border: 2px solid #f7c948;
+      background: rgba(255, 223, 85, 0.25);
+      box-shadow: 0 0 10px rgba(255, 223, 85, 0.4);
     }
-
-    /* نور نرم در بالا برای کارت فینال */
-    .bracket .match.final-match::before {
-      content: "";
-      position: absolute;
-      top: -40%;
-      left: -20%;
-      width: 140%;
-      height: 60%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent);
-      opacity: 0.7;
-    }
-
-    /* متن داخل کارت فینال */
     .bracket .match.final-match .team {
-      font-size: 16px;
-      color: #b86d00;
+      color: #d88a00;
+      font-size: 15px;
     }
 
-    /* انیمیشن پالس طلایی برای کارت فینال */
-    @keyframes finalPulse {
-      0% {
-        box-shadow: 0 0 10px rgba(244, 180, 0, 0.5);
-        transform: translateY(-4px) scale(1);
-      }
-      50% {
-        box-shadow: 0 0 28px rgba(244, 180, 0, 1);
-        transform: translateY(-4px) scale(1.03);
-      }
-      100% {
-        box-shadow: 0 0 10px rgba(244, 180, 0, 0.5);
-        transform: translateY(-4px) scale(1);
-      }
+    /* افکت هاور برای همه مسابقات: بزرگ‌نمایی و سایه‌ی ملایم */
+    .bracket .match:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* نمایش صحیح براکت روی موبایل */
-    @media (max-width: 768px) {
-      .bracket {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-bottom: 15px;
-      }
-      .bracket .round {
-        min-width: 180px;
-      }
-      .bracket .match {
-        width: 160px;
-      }
+    /* رنگ‌بندی متفاوت برای ستون‌های چپ و راست براکت */
+    .bracket #left-quarter .match,
+    .bracket #left-semi .match {
+      background-color: rgba(63, 81, 181, 0.08);
+    }
+    .bracket #right-quarter .match,
+    .bracket #right-semi .match {
+      background-color: rgba(233, 30, 99, 0.08);
     }
 
   </style>
