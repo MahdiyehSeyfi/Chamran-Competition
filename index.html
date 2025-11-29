@@ -450,6 +450,7 @@
       padding: 10px;
       text-align: center;
       backdrop-filter: blur(6px);
+      transition: all 0.3s ease;
     }
 
     /* تیم‌های هر مسابقه در جدول حذفی */
@@ -464,6 +465,15 @@
     .bracket .match .team + .team {
       margin-top: 6px;
       border-top: 1px solid #ddd;
+    }
+
+    /* متمایز کردن کارت فینال با رنگ و حاشیه طلایی */
+    .bracket #final .match {
+      border: 2px solid #f7c948;
+      background: rgba(255, 223, 85, 0.25);
+    }
+    .bracket #final .match .team {
+      color: #d88a00;
     }
 
   </style>
@@ -1219,21 +1229,35 @@
       const rows = csv.trim().split("\n").map(r => r.split(","));
       if (!rows.length) return;
       const dataRows = rows.slice(1);
-      const teams = [];
-      dataRows.forEach(r => {
-        const t = (r[0] && r[0].trim()) || (r[1] && r[1].trim()) || "";
-        if (t) teams.push(t);
+      // مقداردهی اولیه همه کارت‌ها به کاراکتر خط تیره
+      const positions = {
+        "QF-L1": { t1: "lqf1-team1", t2: "lqf1-team2" },
+        "QF-L2": { t1: "lqf2-team1", t2: "lqf2-team2" },
+        "QF-R1": { t1: "rqf1-team1", t2: "rqf1-team2" },
+        "QF-R2": { t1: "rqf2-team1", t2: "rqf2-team2" },
+        "SF-L":  { t1: "lsf-team1",  t2: "lsf-team2" },
+        "SF-R":  { t1: "rsf-team1",  t2: "rsf-team2" },
+        "Final": { t1: "final-team1", t2: "final-team2" }
+      };
+      // ابتدا همه عناصر را با خط تیره پر می‌کنیم
+      Object.values(positions).forEach(pos => {
+        document.getElementById(pos.t1).textContent = "-";
+        document.getElementById(pos.t2).textContent = "-";
       });
-      const leftTeams = teams.slice(0, 4);
-      const rightTeams = teams.slice(4, 8);
-      document.getElementById("lqf1-team1").textContent = leftTeams[0] || "-";
-      document.getElementById("lqf1-team2").textContent = leftTeams[1] || "-";
-      document.getElementById("lqf2-team1").textContent = leftTeams[2] || "-";
-      document.getElementById("lqf2-team2").textContent = leftTeams[3] || "-";
-      document.getElementById("rqf1-team1").textContent = rightTeams[0] || "-";
-      document.getElementById("rqf1-team2").textContent = rightTeams[1] || "-";
-      document.getElementById("rqf2-team1").textContent = rightTeams[2] || "-";
-      document.getElementById("rqf2-team2").textContent = rightTeams[3] || "-";
+      // سپس مقادیر از شیت را در جای مناسب قرار می‌دهیم
+      dataRows.forEach(r => {
+        const round = r[0] ? r[0].trim() : "";
+        const team1 = r[1] ? r[1].trim() : "-";
+        const team2 = r[2] ? r[2].trim() : "-";
+        if (positions[round]) {
+          if (team1) {
+            document.getElementById(positions[round].t1).textContent = team1;
+          }
+          if (team2) {
+            document.getElementById(positions[round].t2).textContent = team2;
+          }
+        }
+      });
     })
     .catch(err => {
       console.error("Error loading volleyball bracket:", err);
