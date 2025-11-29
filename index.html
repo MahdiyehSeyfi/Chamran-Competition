@@ -334,6 +334,43 @@
       color: #000000;
     }
 
+    /* ------------------- بخش قهرمان برای فوتسال ------------------- */
+    .champion-section {
+      /* پس‌زمینه‌ای ملایم با هاله طلایی برای تأکید بر قهرمان */
+      background: rgba(255, 223, 85, 0.25);
+      border: 2px solid #f7c948;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 800px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      text-align: center;
+    }
+    .champion-section h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #000;
+    }
+    .champion-section .champion-list {
+      margin: 0 0 16px;
+      line-height: 1.8;
+      font-size: 18px;
+      color: #222;
+      font-weight: bold;
+    }
+    .champion-section .top-players h3 {
+      margin: 12px 0 8px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #000;
+    }
+    .champion-section .top-players p {
+      margin: 4px 0;
+      font-size: 16px;
+      color: #333;
+    }
+
     /* ------------------- Media Queries برای نمایش در موبایل ------------------- */
     @media (max-width: 600px) {
       /* کارت‌ها و اسلایدر در عرض کامل با فاصله مناسب */
@@ -387,16 +424,16 @@
   <div id="volleyballTab" class="tab-content active">
     <!-- چهار بخش مشابه فوتسال برای والیبال: بازی‌های آینده، نظرات، نتایج، بازیکنان مؤثر -->
     <h2>📅 بازی‌های آینده</h2>
-    <!-- بازی‌های آینده والیبال به صورت جدول مدرن نمایش داده می‌شوند -->
-    <table id="volleyballMatches" class="modern-table"></table>
+    <!-- بازی‌های آینده والیبال به‌صورت کارت‌ها نمایش داده می‌شوند -->
+    <div id="volleyballMatches" class="card-container"></div>
 
     <!-- اسلایدر نظرات بازیکنان قبل از بازی (والیبال) -->
     <h2 class="comments-title">💬  نظرات بازیکنان قبل از بازی</h2>
     <div id="volleyballCommentsSlider" class="comments-slider"></div>
 
     <h2>🏆 نتایج بازی‌ها</h2>
-    <!-- نتایج والیبال در قالب جدول مدرن نمایش داده می‌شود -->
-    <table id="volleyballResults" class="modern-table"></table>
+    <!-- نتایج والیبال در قالب کارت‌ها نمایش داده می‌شود -->
+    <div id="volleyballResults" class="card-container"></div>
 
     <h2>🌟 بازیکنان موثر</h2>
     <div class="effective-container">
@@ -419,6 +456,27 @@
 
   <!-- تب ۲: جدول رده‌بندی و سایر بخش‌های فوتسال -->
   <div id="rankingTab" class="tab-content">
+    <!-- بخش قهرمان و بازیکنان برتر فوتسال -->
+    <div class="champion-section">
+      <h2>🏆 تیم قهرمان: تیزپا</h2>
+      <div class="champion-list">
+        🥇شیدا شیخه<br />
+        🥇حدیث ظفری<br />
+        🥇زینب دهقان<br />
+        🥇فاطمه مالمیر<br />
+        🥇مهسا نویدی‌پور<br />
+        🥇فاطمه سادات موسوی
+      </div>
+      <div class="top-players">
+        <h3>بازیکنان برتر:</h3>
+        <p>🏅گلزن برتر (به غیر از اعضای قهرمان): فاطمه فرج‌الهی و بهار نمکی و مهدیه سیفی (۷ گل)</p>
+        <p>🏅پاسور برتر: زینب بیگلری</p>
+        <p>🏅پدیده مسابقات: پرنیا فرامرزی</p>
+        <p>🏅مدافع برتر: نسرین احسان‌دوست</p>
+        <p>🏅دروازه‌بان برتر: ریحانه حاجی‌زاده</p>
+      </div>
+    </div>
+
     <!-- دو جدول رده‌بندی برای گروه‌های A و B -->
     <h2>گروه A</h2>
     <table id="rankingTableA" class="modern-table"></table>
@@ -454,9 +512,6 @@
       </table>
     </div>
 
-    <!-- بخش نمایش قهرمان مسابقات فوتسال -->
-    <h2>🥇 قهرمان</h2>
-    <div id="champion" class="champion-container"></div>
   </div>
 
   <!-- تب ۳: تیم‌ها -->
@@ -762,29 +817,28 @@
     .then(res => res.text())
     .then(csv => {
       const rows = csv.trim().split("\n").map(r => r.split(","));
-      const table = document.getElementById("volleyballMatches");
-      if (!table) return;
-      table.innerHTML = "";
-      if (!rows.length) return;
-      const header = rows[0];
-      // سطر هدر
-      const headerRow = document.createElement("tr");
-      header.forEach(cell => {
-        const th = document.createElement("th");
-        th.textContent = cell.trim();
-        headerRow.appendChild(th);
-      });
-      table.appendChild(headerRow);
-      // سطرهای داده
+      const container = document.getElementById("volleyballMatches");
+      if (!container) return;
+      container.innerHTML = "";
+      // از ردیف ۱ شروع می‌کنیم تا هدر را رد کنیم
       for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        const tr = document.createElement("tr");
-        row.forEach(cell => {
-          const td = document.createElement("td");
-          td.textContent = cell.trim();
-          tr.appendChild(td);
-        });
-        table.appendChild(tr);
+        const row = rows[i].map(x => x.trim());
+        if (!row.length) continue;
+        // ترتیب ستون‌ها فرض می‌شود: تیم اول، تیم دوم، تاریخ، ساعت، داور (اختیاری)
+        const team1 = row[0] || "";
+        const team2 = row[1] || "";
+        const date  = row[2] || "";
+        const time  = row[3] || "";
+        const referee = row[4] || "";
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="teams">${team1} <span class="divider">🏐</span> ${team2}</div>
+          <div class="match-info">📅 ${date}</div>
+          <div class="match-info">⏰ ${time}</div>
+          <div class="referee-info">داور: ${referee || "-"}</div>
+        `;
+        container.appendChild(card);
       }
     });
 
@@ -793,29 +847,53 @@
     .then(res => res.text())
     .then(csv => {
       const rows = csv.trim().split("\n").map(r => r.split(","));
-      const table = document.getElementById("volleyballResults");
-      if (!table) return;
-      table.innerHTML = "";
-      if (!rows.length) return;
-      const header = rows[0];
-      // ایجاد سطر هدر
-      const headerRow = document.createElement("tr");
-      header.forEach(cell => {
-        const th = document.createElement("th");
-        th.textContent = cell.trim();
-        headerRow.appendChild(th);
-      });
-      table.appendChild(headerRow);
-      // ایجاد سطرهای داده
+      const container = document.getElementById("volleyballResults");
+      if (!container) return;
+      container.innerHTML = "";
+      // از ردیف ۱ شروع می‌کنیم تا هدر رد شود
       for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        const tr = document.createElement("tr");
-        row.forEach(cell => {
-          const td = document.createElement("td");
-          td.textContent = cell.trim();
-          tr.appendChild(td);
-        });
-        table.appendChild(tr);
+        const cells = rows[i].map(x => x.trim());
+        if (!cells.length) continue;
+        // انتظار داریم ستون‌ها به ترتیب: تیم1، تیم2، تعداد ست‌های برد تیم1، تعداد ست‌های برد تیم2، سپس امتیاز هر ست، سپس بازیکنان برتر
+        const team1 = cells[0] || "";
+        const team2 = cells[1] || "";
+        const team1Sets = cells[2] || "";
+        const team2Sets = cells[3] || "";
+        // استخراج امتیاز هر ست: زوج‌های بعدی از ستون 4 به بعد، تا زمانی که مقدار عددی باشند
+        const sets = [];
+        let idx = 4;
+        while (idx + 1 < cells.length) {
+          const a = cells[idx];
+          const b = cells[idx + 1];
+          if (/^\d+$/.test(a) && /^\d+$/.test(b)) {
+            sets.push(`${a}-${b}`);
+            idx += 2;
+          } else {
+            break;
+          }
+        }
+        // نام بازیکنان برتر: ترتیب فرضی = مدافع، دریافت کننده، پاسور، حمله کننده، سرویس زن، لیبرو
+        const categoryNames = ["مدافع", "دریافت کننده", "پاسور", "حمله کننده", "سرویس زن", "لیبرو"];
+        const players = {};
+        let catIndex = 0;
+        for (let j = idx; j < cells.length && catIndex < categoryNames.length; j++, catIndex++) {
+          players[categoryNames[catIndex]] = cells[j] || "-";
+        }
+        // ساخت کارت
+        const card = document.createElement("div");
+        card.className = "card";
+        // متن بازیکنان برتر
+        const playersText = categoryNames
+          .map(cat => (players[cat] ? `${cat}: ${players[cat]}` : ""))
+          .filter(Boolean)
+          .join(" | ");
+        card.innerHTML = `
+          <div class="teams">${team1} ${team1Sets} <span class="divider">🏐</span> ${team2Sets} ${team2}</div>
+          <div class="result-info"><b>امتیاز هر ست:</b> ${sets.length ? sets.join(' ، ') : '-'}</div>
+          <div class="result-info"><b>بازیکنان برتر:</b></div>
+          <div class="result-info goal-scorer">${playersText || '-'}</div>
+        `;
+        container.appendChild(card);
       }
     });
 
