@@ -8,7 +8,7 @@
     body {
       font-family: "Vazir", sans-serif;
       /* تصویر پس‌زمینه برای کل سایت */
-      background: url("https://MahdiyehSeyfi.github.io/Chamran-Competition/pic2.jpg") no-repeat center center fixed;
+      background: url("./pic10.jpg") no-repeat center center fixed;
       background-size: cover;
       color: #222;
       text-align: center;
@@ -373,55 +373,49 @@
 
   <!-- ------------------- تب‌ها ------------------- -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('rankingTab')">⚽ بازی‌های فوتسال</button>
+    <!-- اضافه کردن تب سوم برای بازی‌های والیبال، فوتسال و تیم‌های ثبت‌نامی -->
+    <!-- تب اول: بازی‌های والیبال -->
+    <button class="tab-btn active" onclick="showTab('volleyballTab')">🏐 بازی‌های والیبال</button>
+    <!-- تب دوم: بازی‌های فوتسال -->
+    <button class="tab-btn" onclick="showTab('rankingTab')">⚽ بازی‌های فوتسال</button>
+    <!-- تب سوم: تیم‌های ثبت‌نامی -->
     <button class="tab-btn" onclick="showTab('teamsTab')">👥 تیم‌های ثبت‌نامی</button>
   </div>
 
-  <!-- تب ۱: جدول رده‌بندی و سایر بخش‌های فوتسال -->
-  <div id="rankingTab" class="tab-content active">
+  <!-- تب ۱: بازی‌های والیبال -->
+  <div id="volleyballTab" class="tab-content active">
+    <!-- چهار بخش مشابه فوتسال برای والیبال: بازی‌های آینده، نظرات، نتایج، بازیکنان مؤثر -->
+    <h2>📅 بازی‌های آینده</h2>
+    <div id="volleyballMatches" class="card-container"></div>
 
-    <!-- 🏆 بخش تیم قهرمان -->
-<div id="championBox" 
-     style="
-        max-width:550px;
-        margin:40px auto 60px;
-        padding:30px 20px;
-        border-radius:22px;
-        background: linear-gradient(135deg, rgba(255,215,85,0.85), rgba(255,240,170,0.85));
-        box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-        backdrop-filter: blur(6px);
-        color:#4a3a00;
-        text-align:center;
-     ">
+    <!-- اسلایدر نظرات بازیکنان قبل از بازی (والیبال) -->
+    <h2 class="comments-title">💬  نظرات بازیکنان قبل از بازی</h2>
+    <div id="volleyballCommentsSlider" class="comments-slider"></div>
 
-  <h2 style="margin-bottom:12px; font-size:28px; color:#4a3a00;">
-    🏆 تیم قهرمان رقابت‌ها
-  </h2>
+    <h2>🏆 نتایج بازی‌ها</h2>
+    <div id="volleyballResults" class="card-container"></div>
 
-  <div style="font-size:24px; font-weight:bold; margin-bottom:18px;">
-    ✨ تیم تیزپا ✨
+    <h2>🌟 بازیکنان موثر</h2>
+    <div class="effective-container">
+      <table id="volleyballTopScorers" class="mini-table">
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>گل</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <table id="volleyballTopAssist" class="mini-table">
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>پاس گل</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <table id="volleyballTopMVP" class="mini-table">
+        <thead><tr><th>بازیکن</th><th>تیم</th><th>پست</th><th>رکورد</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
-  <div style="font-size:17px; margin-bottom:10px; font-weight:bold;">
-    اعضای تیم:
-  </div>
-
-  <div style="
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      font-size:16px;
-  ">
-      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 شیدا شیخه</div>
-      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 حدیث ظفری</div>
-      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 زینب دهقان</div>
-      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 فاطمه مالمیر</div>
-      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 مهسا نویدی پور</div>
-      <div style="background:white; padding:10px; border-radius:10px; font-weight:bold;">👤 فاطمه سادات موسوی</div>
-  </div>
-
-</div>
-
+  <!-- تب ۲: جدول رده‌بندی و سایر بخش‌های فوتسال -->
+  <div id="rankingTab" class="tab-content">
     <!-- دو جدول رده‌بندی برای گروه‌های A و B -->
     <h2>گروه A</h2>
     <table id="rankingTableA" class="modern-table"></table>
@@ -458,13 +452,14 @@
     </div>
   </div>
 
-  <!-- تب ۲: تیم‌ها -->
+  <!-- تب ۳: تیم‌ها -->
   <div id="teamsTab" class="tab-content">
-    <h2>👥 تیم‌های ثبت‌نامی فوتسال</h2>
-    <div id="futsalTeamCards" class="team-card-container"></div>
-
+    <!-- طبق درخواست کاربر، ابتدا تیم‌های والیبال و سپس تیم‌های فوتسال نمایش داده می‌شوند -->
     <h2>🏐 تیم‌های ثبت‌نامی والیبال</h2>
     <div id="volleyballTeamCards" class="team-card-container"></div>
+
+    <h2>👥 تیم‌های ثبت‌نامی فوتسال</h2>
+    <div id="futsalTeamCards" class="team-card-container"></div>
   </div>
 
 <script>
@@ -482,6 +477,15 @@
   // توجه: لینک زیر باید با لینک شیت منتشر شده شما جایگزین شود.
   // شیت باید شامل سه ستون باشد: نظر (متن نظر)، نام (نام بازیکن) و تیم (نام تیم)
   const commentsUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XiaUkZP2HEcyJwhjUD-fqU62hsWZdCYoZLRFYaQXefBdIj2Jq_8SjKc6Hvzr9c3bt53Qo36_iycQ/pub?gid=1054227646&single=true&output=csv";
+
+  /* لینک‌های اطلاعات والیبال - مشابه فوتسال
+   * در صورت فراهم بودن شیت‌های جداگانه برای والیبال، مقداردهی این متغیرها باید تغییر یابد.
+   * فعلاً جهت نمونه از لینک‌های فوتسال استفاده می‌کنیم تا ساختار تب والیبال نیز داده‌ها را نمایش دهد.
+   */
+  const volleyballMatchesUrl  = matchesUrl;
+  const volleyballResultsUrl  = resultsUrl;
+  const volleyballEffectiveUrl = effectiveUrl;
+  const volleyballCommentsUrl = commentsUrl;
 
   /*
    * از این پس اطلاعات داورها از همان شیت بازی‌های آینده خوانده می‌شود.
@@ -732,76 +736,172 @@
       });
   })();
 
-</script>
-<canvas id="fireworksCanvas" 
-        style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;">
-</canvas>
+  /* ------------------------------------- */
+  /*  بخش‌های والیبال                      */
+  /* مشابه فوتسال اما برای تب والیبال     */
 
-<script>
-(function() {
-  const canvas = document.getElementById("fireworksCanvas");
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener("resize", resize);
-
-  function random(min, max) { return Math.random() * (max - min) + min; }
-
-  function createFirework() {
-    const x = random(0, canvas.width);
-    const y = random(0, canvas.height / 2);
-    const colors = ["#ff5252", "#ffeb3b", "#69f0ae", "#40c4ff", "#e040fb"];
-
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x, y,
-        angle: random(0, Math.PI * 2),
-        speed: random(2, 5),
-        radius: random(2, 4),
-        color: colors[Math.floor(Math.random() * colors.length)],
-        life: 60
-      });
-    }
-  }
-
-  function update() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach((p, index) => {
-      p.x += Math.cos(p.angle) * p.speed;
-      p.y += Math.sin(p.angle) * p.speed;
-      p.life--;
-      p.speed *= 0.95;
-
-      ctx.beginPath();
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = Math.max(p.life / 60, 0);
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (p.life <= 0) particles.splice(index, 1);
+  /* بازی‌های آینده والیبال */
+  fetch(volleyballMatchesUrl)
+    .then(res => res.text())
+    .then(csv => {
+      const rows = csv.trim().split("\n").map(r => r.split(","));
+      const container = document.getElementById("volleyballMatches");
+      if (!container) return;
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const team1 = row[0] ? row[0].trim() : "";
+        const team2 = row[1] ? row[1].trim() : "";
+        const date  = row[2] ? row[2].trim() : "";
+        const time  = row[3] ? row[3].trim() : "";
+        const referee = row[4] ? row[4].trim() : "";
+        const card = document.createElement("div");
+        card.className = "card";
+        // استفاده از آیکون والیبال در جداکننده
+        card.innerHTML = `
+          <div class="teams">${team1} <span class="divider">🏐</span> ${team2}</div>
+          <div class="match-info">📅 ${date}</div>
+          <div class="match-info">⏰ ${time}</div>
+          <div class="referee-info">داور: ${referee || "-"}</div>
+        `;
+        container.appendChild(card);
+      }
     });
 
-    requestAnimationFrame(update);
+  /* نتایج بازی‌های والیبال */
+  fetch(volleyballResultsUrl)
+    .then(res => res.text())
+    .then(csv => {
+      const rows = csv.trim().split("\n").map(r => r.split(","));
+      const container = document.getElementById("volleyballResults");
+      if (!container) return;
+      for (let i = 1; i < rows.length; i++) {
+        const [team1, score1, score2, team2, scorers1, scorers2, cards1, cards2] = rows[i];
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="teams">${(team1 || "").trim()} ${(score1 || "").trim()} <span class="divider">🏐</span> ${(score2 || "").trim()} ${(team2 || "").trim()}</div>
+          <div class="result-info goal-scorer"><b>${(team1 || "").trim()}:</b> ${scorers1 || "-"}</div>
+          ${cards1 ? `<div class="cards">${cards1.trim()}</div>` : ""}
+          <div class="result-info goal-scorer"><b>${(team2 || "").trim()}:</b> ${scorers2 || "-"}</div>
+          ${cards2 ? `<div class="cards">${cards2.trim()}</div>` : ""}
+        `;
+        container.appendChild(card);
+      }
+    });
+
+  /* بازیکنان مؤثر والیبال */
+  fetch(volleyballEffectiveUrl)
+    .then(res => res.text())
+    .then(csv => {
+      const rows = csv.trim().split("\n").map(r => r.split(","));
+      const scorersV = [], assistV = [], mvpV = [];
+      rows.forEach(r => {
+        const type = r[0] ? r[0].trim() : "";
+        if (type === "گلزن") scorersV.push(r);
+        else if (type === "پاسور") assistV.push(r);
+        else if (type === "موثر") mvpV.push(r);
+      });
+      const scorersBody = document.querySelector("#volleyballTopScorers tbody");
+      const assistBody  = document.querySelector("#volleyballTopAssist tbody");
+      const mvpBody     = document.querySelector("#volleyballTopMVP tbody");
+      if (scorersBody) {
+        scorersV.slice(0, 3).forEach(r => {
+          scorersBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`;
+        });
+      }
+      if (assistBody) {
+        assistV.slice(0, 3).forEach(r => {
+          assistBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`;
+        });
+      }
+      if (mvpBody) {
+        mvpV.slice(0, 3).forEach(r => {
+          mvpBody.innerHTML += `<tr><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`;
+        });
+      }
+    });
+
+  /* ساخت اسلایدر نظرات والیبال */
+  function buildCommentsSliderVolleyball(data) {
+    const slider = document.getElementById("volleyballCommentsSlider");
+    if (!slider) return;
+    slider.innerHTML = "";
+    data.forEach((c, i) => {
+      const slide = document.createElement("div");
+      slide.className = "slide" + (i === 0 ? " active" : "");
+      slide.innerHTML = `
+        <p class="comment-text">"${c.text}"</p>
+        <p class="comment-info">${c.name} - بازیکن تیم ${c.team}</p>
+      `;
+      slider.appendChild(slide);
+    });
+    // ناوبری
+    const prevBtn = document.createElement("div");
+    prevBtn.className = "nav prev";
+    prevBtn.innerHTML = "‹";
+    const nextBtn = document.createElement("div");
+    nextBtn.className = "nav next";
+    nextBtn.innerHTML = "›";
+    slider.appendChild(prevBtn);
+    slider.appendChild(nextBtn);
+    let current = 0;
+    function showSlide(index) {
+      const slides = slider.querySelectorAll(".slide");
+      slides.forEach((el, idx) => {
+        if (idx === index) {
+          el.classList.add("active");
+        } else {
+          el.classList.remove("active");
+        }
+      });
+      current = index;
+    }
+    prevBtn.addEventListener("click", () => {
+      const index = (current - 1 + data.length) % data.length;
+      showSlide(index);
+    });
+    nextBtn.addEventListener("click", () => {
+      const index = (current + 1) % data.length;
+      showSlide(index);
+    });
+    // تغییر خودکار هر ۵ ثانیه
+    setInterval(() => {
+      const index = (current + 1) % data.length;
+      showSlide(index);
+    }, 5000);
   }
 
-  // شروع آتش‌بازی هنگام ورود
-  let fireInterval = setInterval(createFirework, 300);
+  // دریافت نظرات از شیت والیبال و ایجاد اسلایدر
+  (function loadCommentsVolleyball() {
+    fetch(volleyballCommentsUrl)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n").map(r => r.split(","));
+        const parsed = [];
+        for (let i = 1; i < rows.length && parsed.length < 3; i++) {
+          const row = rows[i].map(x => x.trim());
+          const text = row[0] || "";
+          const name = row[1] || "";
+          const team = row[2] || "";
+          if (text) {
+            parsed.push({ text, name, team });
+          }
+        }
+        if (parsed.length) {
+          buildCommentsSliderVolleyball(parsed);
+        } else {
+          buildCommentsSliderVolleyball(commentsData);
+        }
+      })
+      .catch(err => {
+        buildCommentsSliderVolleyball(commentsData);
+      });
+  })();
 
-  // خاموش بعد از 3 ثانیه
-  setTimeout(() => {
-    clearInterval(fireInterval);
-    setTimeout(() => canvas.remove(), 1500);
-  }, 10000);
-
-  update();
-})();
 </script>
+
+  <!-- اسکریپت آتش‌بازی (fireworks) و بوم آن حذف شد. -->
+
 
 </body>
 </html>
