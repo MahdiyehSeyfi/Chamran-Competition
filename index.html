@@ -186,7 +186,7 @@
       font-size: 13px;
       margin-top: 6px;
       color: #333;
-      text-align: right;
+      text-align: center;
       line-height: 1.6;
     }
 
@@ -383,6 +383,8 @@
       font-size: 18px;
       font-weight: bold;
       color: #000;
+      width: 100%;
+      text-align: right;
     }
 
     /* ------------------- Media Queries برای نمایش در موبایل ------------------- */
@@ -497,6 +499,15 @@
         <h3>برترین نجات‌دهنده</h3>
         <table id="volleyballTopSavers" class="mini-table">
           <thead><tr><th>بازیکن</th><th>تیم</th><th>نجات توپ</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- کم اشتباه ترین تیم ها -->
+      <div class="table-wrapper">
+        <h3>کم اشتباه ترین تیم ها</h3>
+        <table id="volleyballLeastErrors" class="mini-table">
+          <thead><tr><th>تیم</th><th>تعداد خطا</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -905,22 +916,24 @@
         const row = rows[i].map(x => x.trim());
         if (!row.length) continue;
         // ساختار: تیم1، تیم2، نتیجه نهایی، ست1، ست2، ست3، مدافع، دریافت‌کننده، پاسور، حمله‌کننده، سرویس‌زن، لیبرو
-        const team1   = row[0] || "";
-        const team2   = row[1] || "";
-        const finalScore = row[2] || ""; // مثل 2–1
-        const set1    = row[3] || "";
-        const set2    = row[4] || "";
-        const set3    = row[5] || "";
-        const defender   = row[6] || "";
-        const receiver   = row[7] || "";
-        const passer     = row[8] || "";
-        const attacker   = row[9] || "";
-        const server     = row[10] || "";
-        const libero     = row[11] || "";
+        const team1 = row[0] || "";
+        const team2 = row[1] || "";
+        // دو ستون جدا برای نتیجه پایانی تیم‌ها
+        const team1Final = row[2] || "";
+        const team2Final = row[3] || "";
+        const set1 = row[4] || "";
+        const set2 = row[5] || "";
+        const set3 = row[6] || "";
+        const defender = row[7] || "";
+        const receiver = row[8] || "";
+        const passer   = row[9] || "";
+        const attacker = row[10] || "";
+        const server   = row[11] || "";
+        const libero   = row[12] || "";
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <div class="teams">${team1} ${finalScore} <span class="divider">🏐</span> ${team2}</div>
+          <div class="teams">${team1} ${team1Final} <span class="divider">🏐</span> ${team2Final} ${team2}</div>
           <div class="result-info"><b>ست اول:</b> ${set1 || '-'}</div>
           <div class="result-info"><b>ست دوم:</b> ${set2 || '-'}</div>
           <div class="result-info"><b>ست سوم:</b> ${set3 || '-'}</div>
@@ -948,6 +961,7 @@
       const defenders = [];
       const setters = [];
       const savers = [];
+      const errors = [];
       // فرض می‌کنیم ستون اول نوع دسته است: مانند "سرویس"، "دریافت"، "حمله"، "دفاع"، "پاس"، "نجات"
       rows.forEach((r, idx) => {
         if (idx === 0) return; // skip header if exists
@@ -978,6 +992,11 @@
           case "نجات‌دهنده":
             savers.push(r);
             break;
+          case "خطا":
+          case "اشتباه":
+          case "تیم":
+            errors.push(r);
+            break;
           default:
             break;
         }
@@ -987,16 +1006,24 @@
         const tbody = document.querySelector(`#${tableId} tbody`);
         if (!tbody) return;
         tbody.innerHTML = "";
-        data.slice(0, 3).forEach(r => {
-          // r[1]=player, r[2]=team; subsequent columns correspond to metrics order specified
-          const player = r[1] || "-";
-          const team = r[2] || "-";
-          let rowHtml = `<tr><td>${player}</td><td>${team}</td>`;
-          for (let i = 0; i < cols.length; i++) {
-            const val = r[3 + i] || "-";
-            rowHtml += `<td>${val}</td>`;
+        data.slice(0, 4).forEach(r => {
+          // For most tables: r[1]=player, r[2]=team, metrics start at r[3]
+          let rowHtml = "";
+          if (tableId === "volleyballLeastErrors") {
+            // structure: r[1] = team, r[2] = تعداد خطا
+            const team = r[1] || "-";
+            const errorsCount = r[2] || "-";
+            rowHtml = `<tr><td>${team}</td><td>${errorsCount}</td></tr>`;
+          } else {
+            const player = r[1] || "-";
+            const team = r[2] || "-";
+            rowHtml = `<tr><td>${player}</td><td>${team}</td>`;
+            for (let i = 0; i < cols.length; i++) {
+              const val = r[3 + i] || "-";
+              rowHtml += `<td>${val}</td>`;
+            }
+            rowHtml += `</tr>`;
           }
-          rowHtml += `</tr>`;
           tbody.innerHTML += rowHtml;
         });
       }
@@ -1007,6 +1034,7 @@
       fillTable("volleyballTopDefenders", defenders, ["دفاع موفق", "دفاع ناموفق", "رکورد نهایی"]);
       fillTable("volleyballTopSetters", setters, ["پاس موفق", "کسب امتیاز", "رکورد نهایی"]);
       fillTable("volleyballTopSavers", savers, ["نجات توپ"]);
+      fillTable("volleyballLeastErrors", errors, ["تعداد خطا"]);
     });
 
   /* ساخت اسلایدر نظرات والیبال */
