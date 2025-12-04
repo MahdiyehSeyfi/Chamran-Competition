@@ -1157,6 +1157,7 @@
         const date  = row[2] || "";
         const time  = row[3] || "";
         const referee = row[4] || "";
+        const supervisor = row[5] || "";
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
@@ -1164,6 +1165,7 @@
           <div class="match-info">📅 ${date}</div>
           <div class="match-info">⏰ ${time}</div>
           <div class="referee-info">داور: ${referee || "-"}</div>
+          <div class="referee-info">ناظر: ${supervisor || "-"}</div>
         `;
         container.appendChild(card);
       }
