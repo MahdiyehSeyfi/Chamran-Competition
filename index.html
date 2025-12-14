@@ -655,6 +655,26 @@
   <!-- تب ۱: بازی‌های والیبال -->
   <div id="volleyballTab" class="tab-content active">
     <!-- چهار بخش مشابه فوتسال برای والیبال: بازی‌های آینده، نظرات، نتایج، بازیکنان مؤثر -->
+    <!-- بخش قهرمان والیبال -->
+    <div class="champion-section">
+      <h2>🏆 تیم قهرمان: بلک بال</h2>
+      <div class="champion-list">
+        🥇محدثه طاهری<br />
+        🥇سپیده ایرانا<br />
+        🥇فاطمه&nbsp;اربابی<br />
+        🥇مهسا&nbsp;نویدی&nbsp;پور<br />
+        🥇زهرا&nbsp;احتشام<br />
+        🥇یاسمن&nbsp;کهوری<br />
+        🥇نرگس&nbsp;بانوی
+      </div>
+      <div class="top-players">
+        <h3>بازیکنان برتر:</h3>
+        <p>🏅 سرویس&nbsp;زن&nbsp;برتر: فاطمه&nbsp;اربابی</p>
+        <p>🏅 برترین&nbsp;دریافت‌کننده: ریحانه&nbsp;رجایی</p>
+        <p>🏅 برترین&nbsp;حمله‌کننده: یاسمن&nbsp;کهوری</p>
+        <p>🏅 برترین&nbsp;پاسور: تمنا&nbsp;اکرامی</p>
+      </div>
+    </div>
     <!-- جدول حذفی والیبال -->
     <h2>🏐 جدول حذفی</h2>
     <div id="volleyballBracket" class="vertical-bracket">
@@ -1434,7 +1454,111 @@
 
 </script>
 
-  <!-- اسکریپت آتش‌بازی (fireworks) و بوم آن حذف شد. -->
+  <!-- اسکریپت آتش‌بازی (fireworks) -->
+  <script>
+    // Create a simple fireworks animation using the Canvas API. A full screen canvas
+    // is appended to the document body when the page finishes loading. It generates
+    // colorful bursts from the center of the screen at regular intervals and removes
+    // itself automatically after 15 seconds so as not to interfere with page interactions.
+    (function() {
+      function startFireworks() {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'fireworksCanvas';
+        // position canvas fixed on top of all content
+        canvas.style.position = 'fixed';
+        canvas.style.top = 0;
+        canvas.style.left = 0;
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        // high z-index to appear above other elements
+        canvas.style.zIndex = 9999;
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        const fireworks = [];
+        function createFirework() {
+          // always launch from the center of the screen
+          const x = canvas.width / 2;
+          const y = canvas.height / 2;
+          const particles = [];
+          const count = 40;
+          // a palette of bright colors
+          const colors = ['#ff4d4d', '#ffd93d', '#6bc1ff', '#a67ee5', '#ff7f50', '#4bc083'];
+          for (let i = 0; i < count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            // vary speed to give depth to the explosion
+            const speed = Math.random() * 4 + 2;
+            particles.push({
+              x: x,
+              y: y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              alpha: 1,
+              radius: Math.random() * 2 + 1,
+              color: colors[Math.floor(Math.random() * colors.length)]
+            });
+          }
+          fireworks.push(particles);
+        }
+        let animationFrameId;
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (let f = fireworks.length - 1; f >= 0; f--) {
+            const particles = fireworks[f];
+            for (let p = particles.length - 1; p >= 0; p--) {
+              const particle = particles[p];
+              particle.x += particle.vx;
+              particle.y += particle.vy;
+              // simulate a subtle downward gravity
+              particle.vy += 0.03;
+              particle.alpha -= 0.015;
+              if (particle.alpha <= 0) {
+                particles.splice(p, 1);
+                continue;
+              }
+              ctx.globalAlpha = particle.alpha;
+              ctx.fillStyle = particle.color;
+              ctx.beginPath();
+              ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            // remove fireworks with no particles left
+            if (particles.length === 0) {
+              fireworks.splice(f, 1);
+            }
+          }
+          ctx.globalAlpha = 1;
+          animationFrameId = requestAnimationFrame(animate);
+        }
+        animate();
+        // create fireworks bursts at an interval
+        const intervalId = setInterval(createFirework, 700);
+        // stop generating new bursts after 15 seconds
+        setTimeout(() => {
+          clearInterval(intervalId);
+          // give some time for existing particles to fade, then remove canvas
+          setTimeout(() => {
+            cancelAnimationFrame(animationFrameId);
+            if (canvas.parentNode) {
+              canvas.parentNode.removeChild(canvas);
+            }
+          }, 5000);
+        }, 15000);
+      }
+      // run immediately if the page is already loaded, otherwise wait for load
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(startFireworks, 0);
+      } else {
+        window.addEventListener('load', startFireworks);
+      }
+    })();
+  </script>
 
 
 </body>
